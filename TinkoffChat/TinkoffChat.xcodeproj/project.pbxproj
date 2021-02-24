@@ -7,15 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8090482E25E3ADBF00E3BF35 /* ApplicationExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8090482D25E3ADBF00E3BF35 /* ApplicationExt.swift */; };
+		8090483025E3AE7400E3BF35 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8090482F25E3AE7400E3BF35 /* Logger.swift */; };
+		8090483225E3C5B600E3BF35 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8090483125E3C5B600E3BF35 /* ProfileViewController.swift */; };
 		809639A725D7DFCE0038EFEE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809639A625D7DFCE0038EFEE /* AppDelegate.swift */; };
 		809639AB25D7DFCE0038EFEE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809639AA25D7DFCE0038EFEE /* ViewController.swift */; };
 		809639AE25D7DFCE0038EFEE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 809639AC25D7DFCE0038EFEE /* Main.storyboard */; };
 		809639B025D7DFCF0038EFEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 809639AF25D7DFCF0038EFEE /* Assets.xcassets */; };
 		809639B325D7DFCF0038EFEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 809639B125D7DFCF0038EFEE /* LaunchScreen.storyboard */; };
-		809639CB25D7F66D0038EFEE /* ViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809639CA25D7F66D0038EFEE /* ViewControllerExt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8090482D25E3ADBF00E3BF35 /* ApplicationExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationExt.swift; sourceTree = "<group>"; };
+		8090482F25E3AE7400E3BF35 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		8090483125E3C5B600E3BF35 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		809639A325D7DFCE0038EFEE /* TinkoffChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TinkoffChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		809639A625D7DFCE0038EFEE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		809639AA25D7DFCE0038EFEE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -23,7 +28,6 @@
 		809639AF25D7DFCF0038EFEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		809639B225D7DFCF0038EFEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		809639B425D7DFCF0038EFEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		809639CA25D7F66D0038EFEE /* ViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExt.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +61,11 @@
 			isa = PBXGroup;
 			children = (
 				809639A625D7DFCE0038EFEE /* AppDelegate.swift */,
+				8090482D25E3ADBF00E3BF35 /* ApplicationExt.swift */,
 				809639AA25D7DFCE0038EFEE /* ViewController.swift */,
-				809639CA25D7F66D0038EFEE /* ViewControllerExt.swift */,
+				8090482F25E3AE7400E3BF35 /* Logger.swift */,
 				809639AC25D7DFCE0038EFEE /* Main.storyboard */,
+				8090483125E3C5B600E3BF35 /* ProfileViewController.swift */,
 				809639AF25D7DFCF0038EFEE /* Assets.xcassets */,
 				809639B125D7DFCF0038EFEE /* LaunchScreen.storyboard */,
 				809639B425D7DFCF0038EFEE /* Info.plist */,
@@ -137,9 +143,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8090483025E3AE7400E3BF35 /* Logger.swift in Sources */,
+				8090482E25E3ADBF00E3BF35 /* ApplicationExt.swift in Sources */,
+				8090483225E3C5B600E3BF35 /* ProfileViewController.swift in Sources */,
 				809639AB25D7DFCE0038EFEE /* ViewController.swift in Sources */,
 				809639A725D7DFCE0038EFEE /* AppDelegate.swift in Sources */,
-				809639CB25D7F66D0038EFEE /* ViewControllerExt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
