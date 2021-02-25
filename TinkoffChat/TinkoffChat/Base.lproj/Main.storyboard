@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18121" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18092"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,13 +18,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Marina Dudarenko" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMH-pm-pew">
-                                <rect key="frame" x="16" y="339" width="343" height="29"/>
+                                <rect key="frame" x="16" y="335" width="343" height="29"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="naR-9M-pnW">
-                                <rect key="frame" x="68" y="400" width="239" height="41"/>
+                                <rect key="frame" x="68" y="396" width="239" height="41"/>
                                 <string key="text">UX/UI designer, web-designer
 Moscow, Russia</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -38,7 +38,7 @@ Moscow, Russia</string>
                                     <constraint firstAttribute="height" constant="40" id="Uw1-cj-Mpd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                <state key="normal" title="Edit">
+                                <state key="normal" title="Save">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
@@ -49,9 +49,9 @@ Moscow, Russia</string>
                                         <rect key="frame" x="0.0" y="0.0" width="239" height="239"/>
                                         <color key="backgroundColor" systemColor="systemYellowColor"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BT0-Dn-o2x">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BT0-Dn-o2x">
                                         <rect key="frame" x="0.0" y="0.0" width="239" height="239"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="68"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="90"/>
                                         <color key="textColor" systemColor="opaqueSeparatorColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -75,17 +75,17 @@ Moscow, Russia</string>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="naR-9M-pnW" secondAttribute="trailing" constant="68" id="3hS-Su-Kbl"/>
                             <constraint firstItem="53M-Ts-JTJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="64" id="4lI-0f-jH1"/>
-                            <constraint firstItem="hMH-pm-pew" firstAttribute="top" secondItem="53M-Ts-JTJ" secondAttribute="bottom" constant="36" id="5lp-Fk-ffr"/>
+                            <constraint firstItem="hMH-pm-pew" firstAttribute="top" secondItem="53M-Ts-JTJ" secondAttribute="bottom" constant="32" id="5lp-Fk-ffr"/>
                             <constraint firstItem="naR-9M-pnW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="68" id="854-G5-h5M"/>
                             <constraint firstItem="naR-9M-pnW" firstAttribute="top" secondItem="hMH-pm-pew" secondAttribute="bottom" constant="32" id="NMb-TC-Lsr"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="i1i-iz-qGt" secondAttribute="bottom" constant="32" id="Qpo-rq-5ZV"/>
                             <constraint firstItem="i1i-iz-qGt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="68" id="RDx-by-enR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="53M-Ts-JTJ" secondAttribute="trailing" constant="68" id="Yyf-Ef-DJ2"/>
-                            <constraint firstItem="53M-Ts-JTJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="68" id="biF-A3-x61"/>
                             <constraint firstItem="i1i-iz-qGt" firstAttribute="top" relation="greaterThanOrEqual" secondItem="naR-9M-pnW" secondAttribute="bottom" constant="10" id="eJb-jP-0YY"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hMH-pm-pew" secondAttribute="trailing" constant="16" id="eyi-OH-5I7"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="i1i-iz-qGt" secondAttribute="trailing" constant="68" id="ilg-2L-fOp"/>
                             <constraint firstItem="hMH-pm-pew" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="l7r-tm-G10"/>
+                            <constraint firstItem="53M-Ts-JTJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="68" id="rBm-X3-eh5"/>
                         </constraints>
                     </view>
                     <connections>
