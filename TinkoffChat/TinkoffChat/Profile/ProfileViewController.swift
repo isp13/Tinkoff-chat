@@ -129,7 +129,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
             delegate!.changeAvatarBarView(avatarImageView.image)
         }
         
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
