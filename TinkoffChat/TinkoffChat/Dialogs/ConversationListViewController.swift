@@ -15,6 +15,7 @@ class ConversationListViewController: UIViewController, ControllerDelegate {
     var onlinePeopleChats: [ConversationChatData] = []
     var offlinePeopleChats: [ConversationChatData] = []
     
+    var profileImage: UIImage?
     
     // MARK: Life cycle
 
@@ -57,6 +58,7 @@ class ConversationListViewController: UIViewController, ControllerDelegate {
     
     func changeAvatarBarView(_ image: UIImage?) {
         setupImageRightNavButton(image)
+        profileImage = image
     }
     
     
@@ -69,6 +71,7 @@ class ConversationListViewController: UIViewController, ControllerDelegate {
         else if segue.identifier == "showProfileSegue" {
             guard let destinationVC = segue.destination as? ProfileViewController  else {return }
             destinationVC.delegate = self
+            destinationVC.existingImage = profileImage
         }
     }
 }

@@ -14,6 +14,8 @@ protocol ControllerDelegate {
 class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     
     var delegate: ControllerDelegate?
+    
+    var existingImage: UIImage?
 
     @IBOutlet weak private var avatarContainerView: UIView!
     @IBOutlet weak private var avatarImageView: UIImageView!
@@ -77,6 +79,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     private func setupAvatarImageView() {
+        
+        if existingImage != nil {
+            avatarImageView.image = existingImage
+        }
         avatarImageView.isUserInteractionEnabled = true
         avatarImageView.contentMode = .scaleToFill
         avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(editAvatarButtonTapped(_:))))
