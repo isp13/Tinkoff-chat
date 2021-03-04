@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8001D50525ED813F002E6B9A /* DialogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8001D50425ED813F002E6B9A /* DialogTableViewCell.swift */; };
+		8001D50725ED8D24002E6B9A /* ConversationChatData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8001D50625ED8D24002E6B9A /* ConversationChatData.swift */; };
+		8001D50E25ED8F66002E6B9A /* ConversationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8001D50D25ED8F66002E6B9A /* ConversationListViewController.swift */; };
+		8001D51025ED9677002E6B9A /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8001D50F25ED9677002E6B9A /* DateExt.swift */; };
+		8020EF9525EE8F3C00DD0877 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8020EF9425EE8F3C00DD0877 /* ConversationViewController.swift */; };
+		8020EF9925EE91F400DD0877 /* DetailedConversationChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8020EF9825EE91F400DD0877 /* DetailedConversationChatModel.swift */; };
+		8034BABF25EEAF6B00685762 /* MyMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034BABD25EEAF6B00685762 /* MyMessageTableViewCell.swift */; };
+		8034BAC025EEAF6B00685762 /* MyMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8034BABE25EEAF6B00685762 /* MyMessageTableViewCell.xib */; };
+		8034BAC325EEB13700685762 /* NotMyMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034BAC125EEB13700685762 /* NotMyMessageTableViewCell.swift */; };
+		8034BAC425EEB13700685762 /* NotMyMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8034BAC225EEB13700685762 /* NotMyMessageTableViewCell.xib */; };
 		8090482E25E3ADBF00E3BF35 /* ApplicationExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8090482D25E3ADBF00E3BF35 /* ApplicationExt.swift */; };
 		8090483025E3AE7400E3BF35 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8090482F25E3AE7400E3BF35 /* Logger.swift */; };
 		8090483225E3C5B600E3BF35 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8090483125E3C5B600E3BF35 /* ProfileViewController.swift */; };
@@ -15,9 +25,20 @@
 		809639AE25D7DFCE0038EFEE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 809639AC25D7DFCE0038EFEE /* Main.storyboard */; };
 		809639B025D7DFCF0038EFEE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 809639AF25D7DFCF0038EFEE /* Assets.xcassets */; };
 		809639B325D7DFCF0038EFEE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 809639B125D7DFCF0038EFEE /* LaunchScreen.storyboard */; };
+		809EE4E525F14DFE00D8A153 /* mockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809EE4E425F14DFE00D8A153 /* mockData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8001D50425ED813F002E6B9A /* DialogTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogTableViewCell.swift; sourceTree = "<group>"; };
+		8001D50625ED8D24002E6B9A /* ConversationChatData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationChatData.swift; sourceTree = "<group>"; };
+		8001D50D25ED8F66002E6B9A /* ConversationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewController.swift; sourceTree = "<group>"; };
+		8001D50F25ED9677002E6B9A /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
+		8020EF9425EE8F3C00DD0877 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		8020EF9825EE91F400DD0877 /* DetailedConversationChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedConversationChatModel.swift; sourceTree = "<group>"; };
+		8034BABD25EEAF6B00685762 /* MyMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMessageTableViewCell.swift; sourceTree = "<group>"; };
+		8034BABE25EEAF6B00685762 /* MyMessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyMessageTableViewCell.xib; sourceTree = "<group>"; };
+		8034BAC125EEB13700685762 /* NotMyMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotMyMessageTableViewCell.swift; sourceTree = "<group>"; };
+		8034BAC225EEB13700685762 /* NotMyMessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotMyMessageTableViewCell.xib; sourceTree = "<group>"; };
 		8090482D25E3ADBF00E3BF35 /* ApplicationExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationExt.swift; sourceTree = "<group>"; };
 		8090482F25E3AE7400E3BF35 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		8090483125E3C5B600E3BF35 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -28,6 +49,7 @@
 		809639AF25D7DFCF0038EFEE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		809639B225D7DFCF0038EFEE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		809639B425D7DFCF0038EFEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		809EE4E425F14DFE00D8A153 /* mockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mockData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +63,63 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8001D50825ED8EFF002E6B9A /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				8090483125E3C5B600E3BF35 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		8001D50925ED8F07002E6B9A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8090482D25E3ADBF00E3BF35 /* ApplicationExt.swift */,
+				8001D50F25ED9677002E6B9A /* DateExt.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8001D50A25ED8F17002E6B9A /* Dialogs */ = {
+			isa = PBXGroup;
+			children = (
+				8001D50D25ED8F66002E6B9A /* ConversationListViewController.swift */,
+				8001D50C25ED8F2C002E6B9A /* Model */,
+				8020EF9325EE8F2400DD0877 /* Detail */,
+				8001D50B25ED8F1F002E6B9A /* Cells */,
+			);
+			path = Dialogs;
+			sourceTree = "<group>";
+		};
+		8001D50B25ED8F1F002E6B9A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8001D50425ED813F002E6B9A /* DialogTableViewCell.swift */,
+				8034BABD25EEAF6B00685762 /* MyMessageTableViewCell.swift */,
+				8034BAC125EEB13700685762 /* NotMyMessageTableViewCell.swift */,
+				8034BAC225EEB13700685762 /* NotMyMessageTableViewCell.xib */,
+				8034BABE25EEAF6B00685762 /* MyMessageTableViewCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		8001D50C25ED8F2C002E6B9A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8001D50625ED8D24002E6B9A /* ConversationChatData.swift */,
+				8020EF9825EE91F400DD0877 /* DetailedConversationChatModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8020EF9325EE8F2400DD0877 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				8020EF9425EE8F3C00DD0877 /* ConversationViewController.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		8096399A25D7DFCE0038EFEE = {
 			isa = PBXGroup;
 			children = (
@@ -60,12 +139,14 @@
 		809639A525D7DFCE0038EFEE /* TinkoffChat */ = {
 			isa = PBXGroup;
 			children = (
-				809639A625D7DFCE0038EFEE /* AppDelegate.swift */,
-				8090482D25E3ADBF00E3BF35 /* ApplicationExt.swift */,
-				809639AA25D7DFCE0038EFEE /* ViewController.swift */,
 				8090482F25E3AE7400E3BF35 /* Logger.swift */,
+				809EE4E425F14DFE00D8A153 /* mockData.swift */,
+				8001D50925ED8F07002E6B9A /* Extensions */,
+				8001D50A25ED8F17002E6B9A /* Dialogs */,
+				8001D50825ED8EFF002E6B9A /* Profile */,
+				809639A625D7DFCE0038EFEE /* AppDelegate.swift */,
+				809639AA25D7DFCE0038EFEE /* ViewController.swift */,
 				809639AC25D7DFCE0038EFEE /* Main.storyboard */,
-				8090483125E3C5B600E3BF35 /* ProfileViewController.swift */,
 				809639AF25D7DFCF0038EFEE /* Assets.xcassets */,
 				809639B125D7DFCF0038EFEE /* LaunchScreen.storyboard */,
 				809639B425D7DFCF0038EFEE /* Info.plist */,
@@ -130,7 +211,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8034BAC425EEB13700685762 /* NotMyMessageTableViewCell.xib in Resources */,
 				809639B325D7DFCF0038EFEE /* LaunchScreen.storyboard in Resources */,
+				8034BAC025EEAF6B00685762 /* MyMessageTableViewCell.xib in Resources */,
 				809639B025D7DFCF0038EFEE /* Assets.xcassets in Resources */,
 				809639AE25D7DFCE0038EFEE /* Main.storyboard in Resources */,
 			);
@@ -145,9 +228,18 @@
 			files = (
 				8090483025E3AE7400E3BF35 /* Logger.swift in Sources */,
 				8090482E25E3ADBF00E3BF35 /* ApplicationExt.swift in Sources */,
+				8020EF9525EE8F3C00DD0877 /* ConversationViewController.swift in Sources */,
 				8090483225E3C5B600E3BF35 /* ProfileViewController.swift in Sources */,
+				8001D50725ED8D24002E6B9A /* ConversationChatData.swift in Sources */,
+				8020EF9925EE91F400DD0877 /* DetailedConversationChatModel.swift in Sources */,
+				8034BABF25EEAF6B00685762 /* MyMessageTableViewCell.swift in Sources */,
+				8001D50525ED813F002E6B9A /* DialogTableViewCell.swift in Sources */,
+				809EE4E525F14DFE00D8A153 /* mockData.swift in Sources */,
+				8001D50E25ED8F66002E6B9A /* ConversationListViewController.swift in Sources */,
 				809639AB25D7DFCE0038EFEE /* ViewController.swift in Sources */,
 				809639A725D7DFCE0038EFEE /* AppDelegate.swift in Sources */,
+				8001D51025ED9677002E6B9A /* DateExt.swift in Sources */,
+				8034BAC325EEB13700685762 /* NotMyMessageTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
