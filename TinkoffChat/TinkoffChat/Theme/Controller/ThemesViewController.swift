@@ -4,8 +4,6 @@
 //
 //  Created by Никита Казанцев on 08.03.2021.
 //
-
-
 import UIKit
 
 // retain cycle может появиться при сильных ссылках обоих классов друг на друга
@@ -16,15 +14,12 @@ import UIKit
 class ThemesViewController: UIViewController {
     
     @IBOutlet weak var classicView: UIView!
-    
     @IBOutlet weak var dayView: UIView!
-    
     @IBOutlet weak var nightView: UIView!
     
     @IBOutlet weak var defaultNameLabel: UILabel!
     @IBOutlet weak var dayNameLabel: UILabel!
     @IBOutlet weak var nightNameLabel: UILabel!
-    
     
     weak var delegate: ThemesPickerDelegate?
     
@@ -37,7 +32,6 @@ class ThemesViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = ThemeManager.current.mainColors.primaryBackground
-        
         
         setupThemeButtons()
     }
