@@ -11,10 +11,11 @@ import UIKit
 
 class ConversationViewController: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak private var tableView: UITableView!
+    
+    private var theme: Theme = ThemeManager.current
     
     // MARK: Life cycle
-    
     
     override func viewDidLoad() {
         
@@ -23,14 +24,11 @@ class ConversationViewController: UIViewController {
         messagesData = messagesData.sorted(by: {$0.date ?? Date() < $1.date ?? Date()})
 
         setupTableView()
+        
+        tableView.backgroundColor = theme.mainColors.primaryBackground
+        navigationController?.navigationBar.backgroundColor = theme.mainColors.navigationBar.background
 
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.tableView.layoutSubviews()
-        
-    }
-    
     
     // MARK: UI Setup
     
@@ -68,6 +66,7 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
             let cell = tableView.dequeueReusableCell(withIdentifier:   "MyMesTableViewIndentifier") as! MyMessageTableViewCell
             
             cell.configure( messagesData[indexPath.row].text)
+            cell.configureTheme(theme: theme)
             cell.selectionStyle = .none
             return cell
         }
@@ -75,6 +74,7 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
             let cell = tableView.dequeueReusableCell(withIdentifier:   "NotMyMesTableViewIndentifier") as! NotMyMessageTableViewCell
             
             cell.configure( messagesData[indexPath.row].text)
+            cell.configureTheme(theme: theme)
             cell.selectionStyle = .none
             return cell
         }

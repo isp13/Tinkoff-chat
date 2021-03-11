@@ -11,16 +11,21 @@ protocol ControllerDelegate {
     func changeAvatarBarView(_ image: UIImage?)
 }
 
-class ProfileViewController: UIViewController, UINavigationControllerDelegate {
-    
+class ProfileViewController: UIViewController, UINavigationControllerDelegate, ThemesPickerDelegate {
+
     var delegate: ControllerDelegate?
     
+    private var theme: Theme = ThemeManager.current
+    
     var existingImage: UIImage?
-
+    
     @IBOutlet weak private var avatarContainerView: UIView!
     @IBOutlet weak private var avatarImageView: UIImageView!
     
     @IBOutlet weak private var editButton: UIButton!
+    
+    @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     private var imagePicker = UIImagePickerController()
     
@@ -67,11 +72,26 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         setupAvatarImageView()
         
         setupEditButton()
-    
+        
         setupImagePicker()
+        
+        apply()
     }
     
+    
     // MARK: UI Setup
+    
+    func themeDidChange(_ theme: Theme) {
+    }
+    
+    func apply() {
+        view.backgroundColor = theme.mainColors.primaryBackground
+        editButton.backgroundColor = .gray
+        editButton.titleLabel?.textColor = theme.mainColors.profile.text
+        
+        nameLabel.textColor = theme.mainColors.profile.text
+        descriptionLabel.textColor = theme.mainColors.profile.text
+    }
     
     private func setupImagePicker() {
         imagePicker.delegate = self
@@ -111,17 +131,19 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         }))
         
         if UIImagePickerController.isSourceTypeAvailable(.camera){
-        alert.addAction(UIAlertAction(title: "Сделать фото", style: .default, handler: { (_) in
-            
-            
+            alert.addAction(UIAlertAction(title: "Сделать фото", style: .default, handler: { (_) in
+                
+                
                 self.imagePicker.sourceType = .camera
                 self.present(self.imagePicker, animated: true, completion: nil)
-            
-            
-        }))
+            }))
         }
         
         alert.addAction(UIAlertAction(title: "Отменить", style: .cancel))
+        
+        if #available(iOS 13.0, *) {
+            alert.overrideUserInterfaceStyle = theme == Theme.Night ? .dark : .light
+        }
         
         self.present(alert, animated: true)
     }
