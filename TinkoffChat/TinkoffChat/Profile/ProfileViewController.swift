@@ -7,9 +7,16 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+protocol ControllerDelegate {
+    func changeAvatarBarView(_ image: UIImage?)
+}
+
+class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     
+    var delegate: ControllerDelegate?
     
+    var existingImage: UIImage?
+
     @IBOutlet weak private var avatarContainerView: UIView!
     @IBOutlet weak private var avatarImageView: UIImageView!
     
@@ -17,6 +24,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     private var imagePicker = UIImagePickerController()
     
+    // MARK: Life cycle
     
     // This is also necessary when extending the superclass.
     required init?(coder aDecoder: NSCoder) {
@@ -63,33 +71,35 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         setupImagePicker()
     }
     
-    private func setupAvatarImageView() {
-        avatarImageView.isUserInteractionEnabled = true
-        avatarImageView.contentMode = .scaleToFill
-        avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(editAvatarButtonTapped(_:))))
-    }
+    // MARK: UI Setup
     
     private func setupImagePicker() {
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
     }
     
-    private func setupEditButton() {
-        editButton.layer.cornerRadius = 14
+    private func setupAvatarImageView() {
+        
+        if existingImage != nil {
+            avatarImageView.image = existingImage
+        }
+        avatarImageView.isUserInteractionEnabled = true
+        avatarImageView.contentMode = .scaleToFill
         avatarImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(editAvatarButtonTapped(_:))))
     }
     
-    
-    
-    @objc func editAvatarButtonTapped(_ sender: Any) {
-        showAvatarChangeActionSheet()
+    private func setupEditButton() {
+        editButton.layer.cornerRadius = 14
+        editButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(saveButtonTapped(_:))))
     }
     
+    
+    // MARK: Private API
     /**
      Simple Action Sheet
      - Show action sheet with title and alert message and actions
      */
-    func showAvatarChangeActionSheet() {
+    private func showAvatarChangeActionSheet() {
         let alert = UIAlertController(title: "Загрузить фото", message: "Выберите способ загрузки фотографии", preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: "Установить из галереи", style: .default, handler: { [self] (_) in
@@ -100,21 +110,40 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             }
         }))
         
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
         alert.addAction(UIAlertAction(title: "Сделать фото", style: .default, handler: { (_) in
             
-            if UIImagePickerController.isSourceTypeAvailable(.camera){
+            
                 self.imagePicker.sourceType = .camera
                 self.present(self.imagePicker, animated: true, completion: nil)
-            }
+            
             
         }))
+        }
         
         alert.addAction(UIAlertAction(title: "Отменить", style: .cancel))
         
         self.present(alert, animated: true)
     }
     
+    @objc func editAvatarButtonTapped(_ sender: Any) {
+        showAvatarChangeActionSheet()
+    }
+    
+    @objc func saveButtonTapped(_ sender: Any) {
+        if avatarImageView.image != nil {
+            delegate!.changeAvatarBarView(avatarImageView.image)
+        }
+        
+        self.dismiss(animated: true, completion: nil)
+    }
+}
 
+
+// MARK: - UIImagePickerControllerDelegate
+
+extension ProfileViewController: UIImagePickerControllerDelegate {
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
         guard let image = info[.originalImage] as? UIImage else {
@@ -122,5 +151,4 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }
         avatarImageView.image = image
     }
-    
 }
