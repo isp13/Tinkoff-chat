@@ -10,6 +10,7 @@ import UIKit
 
 // retain cycle может появиться при сильных ссылках обоих классов друг на друга
 // у нас он не мог возникнуть
+// теоретически он возможен если обращаться к self полям др класса не по weak ссылке
 
 class ThemesViewController: UIViewController {
     
