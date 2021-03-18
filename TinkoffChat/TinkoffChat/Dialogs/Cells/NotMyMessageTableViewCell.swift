@@ -37,4 +37,8 @@ class NotMyMessageTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
+    override func prepareForReuse() {
+            messageLabel.text = ""
+    }
+    
 }

@@ -14,7 +14,7 @@ class DialogTableViewCell: UITableViewCell {
     @IBOutlet weak private var messageLabel: UILabel!
     
     @IBOutlet weak private var dataLabel: UILabel!
-
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -59,9 +59,15 @@ class DialogTableViewCell: UITableViewCell {
         
         self.backgroundColor = theme.mainColors.chatList.cellBackground
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-
+    
+    override func prepareForReuse() {
+        nameLabel.text = ""
+        messageLabel.text = ""
+        dataLabel.text = ""
+    }
+    
 }

@@ -9,6 +9,8 @@ import Foundation
 
 var messagesData: [MessageChatData] = [
     MessageChatData(text: "Hello, how are you", date: Date().startOfDay, isMy: true),
+    MessageChatData(text: "HEEEEEEEEEEy", date: Date().startOfDay, isMy: true),
+    MessageChatData(text: "WASSUUUP", date: Date(), isMy: false),
     MessageChatData(text: "i'm okay. It was a really hard day today. And now i am feeling little bit lonely. Come over?", date: Date(), isMy: false),
     MessageChatData(text: "Ok. Will be glad to meet you", date: Date().endOfDay, isMy: true),
     MessageChatData(text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", date: Date().endOfMonth, isMy: true),

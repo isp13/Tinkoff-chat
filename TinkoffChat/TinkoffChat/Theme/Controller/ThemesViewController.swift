@@ -11,6 +11,11 @@ import UIKit
 // теоретически он возможен если бы мы обращались к self полям др класса в замыкании не по weak ссылке, а по strong
 // - тогда объекты остаются захваченными в замыкании и не могут быть удалены
 
+
+protocol ThemesPickerDelegate: AnyObject {
+    func themeDidChange(_ theme: Theme)
+}
+
 class ThemesViewController: UIViewController {
     
     @IBOutlet weak var classicView: UIView!
@@ -25,19 +30,20 @@ class ThemesViewController: UIViewController {
     
     var closure: ((Theme) -> Void )?
     
-    var selectedTheme = ThemeManager.current
+    
+    var themeManager = ThemeDataStore.shared
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = ThemeManager.current.mainColors.primaryBackground
+        view.backgroundColor = themeManager.theme.mainColors.primaryBackground
         
         setupThemeButtons()
     }
     
     private func setupThemeButtons() {
-        selectedTheme = ThemeManager.current
+        
         // Do any additional setup after loading the view.
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
@@ -47,67 +53,68 @@ class ThemesViewController: UIViewController {
         let tap3 = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         
         classicView.addGestureRecognizer(tap)
-        classicView.layer.borderWidth = selectedTheme.rawValue == 0 ? 2 : 0
+        classicView.layer.borderWidth = themeManager.theme.rawValue == 0 ? 2 : 0
         classicView.layer.borderColor = UIColor.blue.cgColor
         
         dayView.addGestureRecognizer(tap2)
-        dayView.layer.borderWidth = selectedTheme.rawValue == 1 ? 2 : 0
+        dayView.layer.borderWidth = themeManager.theme.rawValue == 1 ? 2 : 0
         dayView.layer.borderColor = UIColor.blue.cgColor
         
         nightView.addGestureRecognizer(tap3)
-        nightView.layer.borderWidth = selectedTheme.rawValue == 2 ? 2 : 0
+        nightView.layer.borderWidth = themeManager.theme.rawValue == 2 ? 2 : 0
         nightView.layer.borderColor = UIColor.blue.cgColor
         
-        defaultNameLabel.textColor = selectedTheme.mainColors.profile.text
-        dayNameLabel.textColor = selectedTheme.mainColors.profile.text
-        nightNameLabel.textColor = selectedTheme.mainColors.profile.text
+        defaultNameLabel.textColor = themeManager.theme.mainColors.profile.text
+        dayNameLabel.textColor = themeManager.theme.mainColors.profile.text
+        nightNameLabel.textColor = themeManager.theme.mainColors.profile.text
         
-        self.view.backgroundColor =  selectedTheme.mainColors.primaryBackground
+        self.view.backgroundColor =  themeManager.theme.mainColors.primaryBackground
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-        switch (sender?.view?.tag) {
-        case 0: // classic
-            classicView.layer.borderWidth = 2
-            dayView.layer.borderWidth = 0
-            nightView.layer.borderWidth = 0
+        if let themeId = sender?.view?.tag {
             
-            selectedTheme = .init(0)
-            break
-        case 1: // day
-            classicView.layer.borderWidth = 0
-            dayView.layer.borderWidth = 2
-            nightView.layer.borderWidth = 0
-            
-            selectedTheme = .init(1)
-            break
-        case 2: // night
-            classicView.layer.borderWidth = 0
-            dayView.layer.borderWidth = 0
-            nightView.layer.borderWidth = 2
-            selectedTheme = .init(2)
-            break
-        default: // never happens
-            break
-        }
-        
-        ThemeManager.apply(selectedTheme) {
-            DispatchQueue.main.async {
-                //  self.delegate?.themeDidChange(self.selectedTheme)
-                self.closure?(self.selectedTheme)
-                self.updateThemeWithAnimation()
-                self.navigationController?.isNavigationBarHidden = true
-                self.navigationController?.isNavigationBarHidden = false
+            themeManager.saveTheme(theme: Theme(themeId)) { [self] success in
+                if success {
+                    
+                    DispatchQueue.main.async {
+                        switch (themeId) {
+                        case 0: // classic
+                            classicView.layer.borderWidth = 2
+                            dayView.layer.borderWidth = 0
+                            nightView.layer.borderWidth = 0
+                            break
+                        case 1: // day
+                            classicView.layer.borderWidth = 0
+                            dayView.layer.borderWidth = 2
+                            nightView.layer.borderWidth = 0
+                            break
+                        case 2: // night
+                            classicView.layer.borderWidth = 0
+                            dayView.layer.borderWidth = 0
+                            nightView.layer.borderWidth = 2
+                            break
+                        default: // never happens
+                            break
+                        }
+                        
+                        self.delegate?.themeDidChange(themeManager.theme)
+                        self.closure?(themeManager.theme)
+                        self.updateThemeWithAnimation(theme: themeManager.theme)
+                        self.navigationController?.isNavigationBarHidden = true
+                        self.navigationController?.isNavigationBarHidden = false
+                    }
+                }
             }
         }
     }
     
-    private func updateThemeWithAnimation() {
+    private func updateThemeWithAnimation(theme: Theme) {
         UIView.animate(withDuration: 0.2) {
-            self.view.backgroundColor = self.selectedTheme.mainColors.primaryBackground
-            self.defaultNameLabel.textColor = self.selectedTheme.mainColors.profile.text
-            self.dayNameLabel.textColor = self.selectedTheme.mainColors.profile.text
-            self.nightNameLabel.textColor = self.selectedTheme.mainColors.profile.text
+            self.view.backgroundColor = theme.mainColors.primaryBackground
+            self.defaultNameLabel.textColor = theme.mainColors.profile.text
+            self.dayNameLabel.textColor = theme.mainColors.profile.text
+            self.nightNameLabel.textColor = theme.mainColors.profile.text
         }
     }
     

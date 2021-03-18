@@ -14,7 +14,7 @@ struct ThemeModel {
     let chatList: ChatListThemeModel
     let chat: ChatThemeModel
     let profile: ProfileThemeModel
-    
+    let buttons: LargeButtonsThemeModel
 }
 
 struct NavigationBarThemeModel {
@@ -38,3 +38,13 @@ struct ChatThemeModel {
 struct ProfileThemeModel {
     let text: UIColor
 }
+
+struct LargeButtonsThemeModel {
+    let primaryButtonBackground: UIColor
+    let text: UIColor
+}
+
+enum ThemeItemsTags: String {
+    case themeStyle = "theme"
+}
+

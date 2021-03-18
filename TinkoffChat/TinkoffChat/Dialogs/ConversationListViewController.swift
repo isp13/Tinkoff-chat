@@ -8,9 +8,10 @@
 import UIKit
 
 
-class ConversationListViewController: UIViewController, ControllerDelegate {
-
-    private var theme: Theme = ThemeManager.current
+class ConversationListViewController: UIViewController {
+    
+    private var theme: Theme = ThemeDataStore.shared.theme
+    var userDataStore = UserDataStore.shared
     
     @IBOutlet weak private var tableView: UITableView!
     
@@ -29,17 +30,23 @@ class ConversationListViewController: UIViewController, ControllerDelegate {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        let image = UIImage(named: "avatar2")?.withRenderingMode(.alwaysOriginal)
+        loadProfile()
         
-        setupImageRightNavButton(image)
+        setupImageRightNavButton(UIImage(named: "avatar2")?.withRenderingMode(.alwaysOriginal))
         
         setupTheme()
         
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
+    }
+    
+    // MARK: UI Setup
+    
     private func setupTheme() {
-        let theme = ThemeManager.current
+        let theme = ThemeDataStore.shared.theme
         view.backgroundColor = theme.mainColors.primaryBackground
         if #available(iOS 13.0, *) {
             let navBarAppearance = UINavigationBarAppearance()
@@ -71,44 +78,12 @@ class ConversationListViewController: UIViewController, ControllerDelegate {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    @IBAction func settingsButtonTapped(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "settings") as? ThemesViewController
-        
-        if let controller = viewController {
-            controller.delegate = self
-            controller.selectedTheme = theme
-            
-            controller.closure = {  [weak self] theme in
-                self?.theme = theme
-                
-                ThemeManager.apply(theme) {
-                    DispatchQueue.main.async {
-                        self?.setupTheme()
-                    }
-                }
-            }
-            
-            navigationController?.pushViewController(controller, animated: true)
-        }
-    }
-    
-    // MARK: Private API
-    
-    @objc private func profileAvatarTapped(_ sender: Any) {
-        self.performSegue(withIdentifier: "showProfileSegue", sender: sender)
-    }
-    
     private func setupImageRightNavButton(_ image: UIImage?) {
         let button = UIButton(type: UIButton.ButtonType.custom)
         button.setImage(image, for: .normal)
         button.addTarget(self, action:#selector(profileAvatarTapped), for: .touchUpInside)
         button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
         let widthConstraint = button.widthAnchor.constraint(equalToConstant: 32)
         let heightConstraint = button.heightAnchor.constraint(equalToConstant: 32)
@@ -119,11 +94,42 @@ class ConversationListViewController: UIViewController, ControllerDelegate {
     }
     
     
-    func changeAvatarBarView(_ image: UIImage?) {
-        setupImageRightNavButton(image)
-        profileImage = image
+    // MARK: Private API
+    
+    private func loadProfile() {
+        userDataStore.readProfile { [weak self] (profile) in
+            DispatchQueue.main.async {
+                self?.profileImage = self?.userDataStore.profile?.avatar
+                self?.setupImageRightNavButton(self?.profileImage)
+            }
+        }
     }
     
+    @IBAction func settingsButtonTapped(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "settings") as? ThemesViewController
+        
+        if let controller = viewController {
+            controller.delegate = self
+            //            controller.selectedTheme = theme
+            
+            controller.closure = {  [weak self] theme in
+                self?.theme = theme
+                
+                DispatchQueue.main.async {
+                    self?.setupTheme()
+                }
+                
+            }
+            
+            navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+    
+    @objc private func profileAvatarTapped(_ sender: Any) {
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        self.performSegue(withIdentifier: "showProfileSegue", sender: sender)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailDialog" {
@@ -133,8 +139,15 @@ class ConversationListViewController: UIViewController, ControllerDelegate {
         }
         else if segue.identifier == "showProfileSegue" {
             guard let destinationVC = segue.destination as? ProfileViewController  else {return }
-            destinationVC.delegate = self
-            destinationVC.existingImage = profileImage
+            
+            destinationVC.userDataStore = userDataStore
+            destinationVC.existingImage = userDataStore.profile?.avatar
+            
+            destinationVC.onProfileChanged = { [weak self] (profile) in
+                DispatchQueue.main.async {
+                    self?.loadProfile()
+                }
+            }
         }
     }
 }
@@ -151,9 +164,9 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let headerView = view as? UITableViewHeaderFooterView else { return }
         
-        headerView.contentView.backgroundColor = ThemeManager.current.mainColors.chatList.cellBackground
+        headerView.contentView.backgroundColor = ThemeDataStore.shared.theme.mainColors.chatList.cellBackground
         
-        headerView.textLabel?.textColor = ThemeManager.current.mainColors.chatList.text
+        headerView.textLabel?.textColor = ThemeDataStore.shared.theme.mainColors.chatList.text
     }
     
     
@@ -170,7 +183,7 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
         
         cell.configure(with: indexPath.section == 0 ?  onlinePeopleChats[indexPath.row] : offlinePeopleChats[indexPath.row])
         
-        cell.configureTheme(theme: ThemeManager.current)
+        cell.configureTheme(theme: ThemeDataStore.shared.theme)
         
         cell.selectionStyle = .none
         
@@ -183,6 +196,7 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
 }
 
 
+// MARK: - ThemesPickerDelegate
 extension ConversationListViewController: ThemesPickerDelegate {
     
     func themeDidChange(_ themeOption: Theme) {
