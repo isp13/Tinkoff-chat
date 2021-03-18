@@ -9,9 +9,6 @@ import UIKit
 
 class DialogTableViewCell: UITableViewCell {
     
-    var data: ConversationChatData!
-
-    
     @IBOutlet weak private var nameLabel: UILabel!
     
     @IBOutlet weak private var messageLabel: UILabel!
@@ -26,18 +23,20 @@ class DialogTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        if let chatName = data.name {
+    }
+    
+    func configure(with model: ConversationChatData) {
+        if let chatName = model.name {
             self.nameLabel.text = chatName
         }
         else {
             self.nameLabel.text = "No Name"
         }
         
-        if let chatMessage = data.message {
+        if let chatMessage = model.message {
             self.messageLabel.text = chatMessage
             
-            if data.hasUnreadMessages {
+            if model.hasUnreadMessages {
                 self.messageLabel.font =  UIFont.boldSystemFont(ofSize: 16.0)
             }
         }
@@ -45,19 +44,24 @@ class DialogTableViewCell: UITableViewCell {
             self.messageLabel.text = "Empty message"
         }
         
-        if let chatDate = data.date {
+        if let chatDate = model.date {
             self.dataLabel.text = chatDate.chatDateRepresentation()
         }
         else {
             self.dataLabel.text = "--"
         }
+    }
+    
+    func configureTheme(theme: Theme) {
+        self.nameLabel.textColor = theme.mainColors.chatList.text
+        self.messageLabel.textColor = theme.mainColors.chatList.text
+        self.dataLabel.textColor = theme.mainColors.chatList.text
         
+        self.backgroundColor = theme.mainColors.chatList.cellBackground
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

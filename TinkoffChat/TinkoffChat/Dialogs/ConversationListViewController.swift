@@ -9,16 +9,18 @@ import UIKit
 
 
 class ConversationListViewController: UIViewController, ControllerDelegate {
+
+    private var theme: Theme = ThemeManager.current
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak private var tableView: UITableView!
     
-    var onlinePeopleChats: [ConversationChatData] = []
-    var offlinePeopleChats: [ConversationChatData] = []
+    private var onlinePeopleChats: [ConversationChatData] = []
+    private var offlinePeopleChats: [ConversationChatData] = []
     
-    var profileImage: UIImage?
+    private var profileImage: UIImage?
     
     // MARK: Life cycle
-
+    
     override func viewDidLoad() {
         
         self.onlinePeopleChats = fakeData.filter{$0.online == true}
@@ -31,8 +33,69 @@ class ConversationListViewController: UIViewController, ControllerDelegate {
         
         setupImageRightNavButton(image)
         
+        setupTheme()
+        
     }
     
+
+    private func setupTheme() {
+        let theme = ThemeManager.current
+        view.backgroundColor = theme.mainColors.primaryBackground
+        if #available(iOS 13.0, *) {
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithOpaqueBackground()
+            navBarAppearance.titleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
+            navBarAppearance.backgroundColor = theme.mainColors.navigationBar.background
+            navigationController?.navigationBar.standardAppearance = navBarAppearance
+            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        } else {
+            UINavigationBar.appearance().isTranslucent = false
+            self.navigationController?.navigationBar.barTintColor = theme.mainColors.navigationBar.tint
+            UINavigationBar.appearance().barStyle = theme.mainColors.navigationBar.barStyle
+            self.navigationController?.navigationBar.titleTextAttributes = [
+                NSAttributedString.Key.foregroundColor:
+                    theme.mainColors.navigationBar.title ]
+            UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
+            UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
+        }
+        
+        navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = false
+        
+        setNeedsStatusBarAppearanceUpdate()
+        
+        tableView.separatorColor = theme.mainColors.chatList.text
+        tableView.backgroundColor = theme.mainColors.primaryBackground
+        tableView.reloadData()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    @IBAction func settingsButtonTapped(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "settings") as? ThemesViewController
+        
+        if let controller = viewController {
+            controller.delegate = self
+            controller.selectedTheme = theme
+            
+            controller.closure = {  [weak self] theme in
+                self?.theme = theme
+                
+                ThemeManager.apply(theme) {
+                    DispatchQueue.main.async {
+                        self?.setupTheme()
+                    }
+                }
+            }
+            
+            navigationController?.pushViewController(controller, animated: true)
+        }
+    }
     
     // MARK: Private API
     
@@ -80,9 +143,19 @@ class ConversationListViewController: UIViewController, ControllerDelegate {
 // MARK: - UITableViewDelegate
 // MARK: - UITableViewDataSource
 extension ConversationListViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return section == 0 ? "Online" : "History"
     }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let headerView = view as? UITableViewHeaderFooterView else { return }
+        
+        headerView.contentView.backgroundColor = ThemeManager.current.mainColors.chatList.cellBackground
+        
+        headerView.textLabel?.textColor = ThemeManager.current.mainColors.chatList.text
+    }
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -95,14 +168,9 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "dialogCell") as! DialogTableViewCell
         
-        cell.data = indexPath.section == 0 ?  onlinePeopleChats[indexPath.row] : offlinePeopleChats[indexPath.row]
+        cell.configure(with: indexPath.section == 0 ?  onlinePeopleChats[indexPath.row] : offlinePeopleChats[indexPath.row])
         
-        if indexPath.section == 0 {
-            cell.backgroundColor = UIColor(red: 1.00, green: 0.95, blue: 0.74, alpha: 1.00)
-        }
-        else {
-            cell.backgroundColor = .white
-        }
+        cell.configureTheme(theme: ThemeManager.current)
         
         cell.selectionStyle = .none
         
@@ -111,5 +179,16 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.performSegue(withIdentifier: "detailDialog", sender: indexPath)
+    }
+}
+
+
+extension ConversationListViewController: ThemesPickerDelegate {
+    
+    func themeDidChange(_ themeOption: Theme) {
+        print("themeDidChange called")
+        setupTheme()
+        
+        tableView.reloadData()
     }
 }
