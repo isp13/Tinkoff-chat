@@ -22,11 +22,11 @@ enum Theme: Int  {
     var mainColors: ThemeModel {
         switch self {
         case .Default:
-            return ThemeModel(primaryBackground: .white, navigationBar: NavigationBarThemeModel(background: .white, title: .black, tint: .white, barStyle: .default), chatList: ChatListThemeModel(text: .black, cellBackground: .white), chat: ChatThemeModel(text: .black, myMessageBackground: .lightGray, yourMessageBackground: .systemGreen), profile: ProfileThemeModel(text: .black))
+            return ThemeModel(primaryBackground: .white, navigationBar: NavigationBarThemeModel(background: .white, title: .black, tint: .white, barStyle: .default), chatList: ChatListThemeModel(text: .black, cellBackground: .white), chat: ChatThemeModel(text: .black, myMessageBackground: UIColor.lightGray.withAlphaComponent(0.5), yourMessageBackground: UIColor.systemGreen.withAlphaComponent(0.5)), profile: ProfileThemeModel(text: .black), buttons: LargeButtonsThemeModel(primaryButtonBackground: UIColor.lightGray.withAlphaComponent(0.3), text: .systemBlue))
         case .Day:
-            return ThemeModel(primaryBackground: .white, navigationBar: NavigationBarThemeModel(background: .white, title: .black, tint: .white, barStyle: .default), chatList: ChatListThemeModel(text: .black, cellBackground: .white), chat: ChatThemeModel(text: .black, myMessageBackground: .lightGray, yourMessageBackground: .systemBlue), profile: ProfileThemeModel(text: .black))
+            return ThemeModel(primaryBackground: .white, navigationBar: NavigationBarThemeModel(background: .white, title: .black, tint: .white, barStyle: .default), chatList: ChatListThemeModel(text: .black, cellBackground: .white), chat: ChatThemeModel(text: .black, myMessageBackground: UIColor.lightGray.withAlphaComponent(0.5), yourMessageBackground: UIColor.systemBlue.withAlphaComponent(0.5)), profile: ProfileThemeModel(text: .black), buttons: LargeButtonsThemeModel(primaryButtonBackground: UIColor.lightGray.withAlphaComponent(0.3), text: .systemBlue))
         case .Night:
-            return ThemeModel(primaryBackground: .black, navigationBar: NavigationBarThemeModel(background: .black, title: .white, tint: .black, barStyle: .black), chatList: ChatListThemeModel(text: .white, cellBackground: .black), chat: ChatThemeModel(text: .white, myMessageBackground: .gray, yourMessageBackground: .lightGray), profile: ProfileThemeModel(text: .white))
+            return ThemeModel(primaryBackground: .black, navigationBar: NavigationBarThemeModel(background: .black, title: .white, tint: .black, barStyle: .black), chatList: ChatListThemeModel(text: .white, cellBackground: .black), chat: ChatThemeModel(text: .white, myMessageBackground: .gray, yourMessageBackground: .lightGray), profile: ProfileThemeModel(text: .white), buttons: LargeButtonsThemeModel(primaryButtonBackground: UIColor.lightGray.withAlphaComponent(0.6), text: .systemBlue))
         }
     }
     
