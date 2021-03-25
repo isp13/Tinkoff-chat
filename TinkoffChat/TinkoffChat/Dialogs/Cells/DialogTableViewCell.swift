@@ -15,6 +15,7 @@ class DialogTableViewCell: UITableViewCell {
     
     @IBOutlet weak private var dataLabel: UILabel!
     
+    @IBOutlet weak var channelImageVIew: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,31 +26,18 @@ class DialogTableViewCell: UITableViewCell {
         super.layoutSubviews()
     }
     
-    func configure(with model: ConversationChatData) {
-        if let chatName = model.name {
-            self.nameLabel.text = chatName
-        }
-        else {
-            self.nameLabel.text = "No Name"
-        }
+    func configure(with model: ChannelModel) {
+        self.nameLabel.text = model.name
         
-        if let chatMessage = model.message {
+        if let chatMessage = model.lastMessage {
             self.messageLabel.text = chatMessage
-            
-            if model.hasUnreadMessages {
-                self.messageLabel.font =  UIFont.boldSystemFont(ofSize: 16.0)
-            }
-        }
-        else {
+        } else {
             self.messageLabel.text = "Empty message"
         }
         
-        if let chatDate = model.date {
-            self.dataLabel.text = chatDate.chatDateRepresentation()
-        }
-        else {
-            self.dataLabel.text = "--"
-        }
+        self.dataLabel.text = model.lastActivity?.chatDateRepresentation()
+        
+        self.channelImageVIew.backgroundColor = .gray// заглушка 
     }
     
     func configureTheme(theme: Theme) {
@@ -65,9 +53,17 @@ class DialogTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         nameLabel.text = ""
         messageLabel.text = ""
         dataLabel.text = ""
     }
     
+}
+
+private func randomColor() -> UIColor {
+    let red = CGFloat(drand48())
+    let green = CGFloat(drand48())
+    let blue = CGFloat(drand48())
+    return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
 }

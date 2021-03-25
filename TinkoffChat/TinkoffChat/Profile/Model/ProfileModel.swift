@@ -18,4 +18,3 @@ enum ProfileItemsTags: String {
     case description = "PROFILE_description"
     case avatar = "PROFILE_avatar"
 }
-

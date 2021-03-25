@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 struct ThemeModel {
     let primaryBackground: UIColor
     let navigationBar: NavigationBarThemeModel
@@ -47,4 +46,3 @@ struct LargeButtonsThemeModel {
 enum ThemeItemsTags: String {
     case themeStyle = "theme"
 }
-

@@ -11,7 +11,6 @@ protocol MessageCellConfiguration {
     var text: String? { get set }
 }
 
-
 struct MessageChatData: MessageCellConfiguration {
     var date: Date?
     var text: String?

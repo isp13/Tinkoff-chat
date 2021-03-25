@@ -52,4 +52,3 @@ class ViewController: UIViewController {
         Logger.log(#function)
     }
 }
-

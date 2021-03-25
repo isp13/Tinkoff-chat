@@ -8,17 +8,16 @@
 import UIKit
 
 class MyMessageTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var bubbleView: UIView!
     @IBOutlet weak private var messageLabel: UILabel!
     
     var message: String?
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-    
     
     func configure(_ message: String?) {
         if let mes = message {
@@ -31,15 +30,16 @@ class MyMessageTableViewCell: UITableViewCell {
         self.bubbleView.backgroundColor = theme.mainColors.chat.myMessageBackground
         self.backgroundColor = theme.mainColors.primaryBackground
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
     override func prepareForReuse() {
-            messageLabel.text = ""
+        super.prepareForReuse()
+        messageLabel.text = ""
     }
     
 }
