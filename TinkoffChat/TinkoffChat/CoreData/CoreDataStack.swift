@@ -124,7 +124,7 @@ class CoreDataStack {
         let deleteCount = (userInfo[NSDeletedObjectsKey] as? Set<NSManagedObject>)?.count ?? 0
         Logger.log("удалено объектов: \(deleteCount)")
         
-        // Logger.log(storeURL)
+        Logger.log(storeURL.absoluteString)
     }
 }
 

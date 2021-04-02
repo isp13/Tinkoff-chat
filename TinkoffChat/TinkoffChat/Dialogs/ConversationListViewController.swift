@@ -138,7 +138,7 @@ class ConversationListViewController: UIViewController {
         }
         
         alert.addAction(UIAlertAction(title: "Создать", style: .default, handler: { [weak alert] (_) in
-            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            let textField = alert?.textFields?.first 
             if let textFieldData = textField?.text, !textFieldData.trimmingCharacters(in: .whitespaces).isEmpty {
                 FireStoreManager.shared.createChannel(name: textFieldData) { result in
                     if case Result.failure(_) = result {
