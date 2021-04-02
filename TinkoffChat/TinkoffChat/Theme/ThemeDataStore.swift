@@ -7,16 +7,14 @@
 
 import UIKit
 
-
 class ThemeDataStore {
     
     static var shared: ThemeDataStore = ThemeDataStore()
     
     // gcd or operations
-    let gcdManager =  GCDThemeManager()
+    let gcdManager = GCDThemeManager()
     
     private(set) var theme: Theme = .Default
-    
     
     func saveTheme(theme: Theme, completion: @escaping (Bool) -> Void) {
         self.theme = theme

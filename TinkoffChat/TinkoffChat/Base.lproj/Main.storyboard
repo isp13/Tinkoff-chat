@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lny-6b-Oal">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lny-6b-Oal">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18092"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Tinkoff Chat-->
+        <!--Channels-->
         <scene sceneID="y94-kf-i71">
             <objects>
                 <viewController id="9Ji-r2-HIe" customClass="ConversationListViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="dialogCell" id="tqM-H1-7hc" customClass="DialogTableViewCell" customModule="TinkoffChat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="375" height="69"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="69"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tqM-H1-7hc" id="uQU-2L-2Ya">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="69"/>
@@ -40,7 +40,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="LKX-iS-z2d">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LKX-iS-z2d">
                                                     <rect key="frame" x="16" y="7" width="55" height="55"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="LKX-iS-z2d" secondAttribute="height" multiplier="1:1" id="P9l-BU-dyi"/>
@@ -74,6 +74,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="channelImageVIew" destination="LKX-iS-z2d" id="qa5-Zh-ZOt"/>
                                             <outlet property="dataLabel" destination="Ue2-yn-cqH" id="b6f-vg-nUV"/>
                                             <outlet property="messageLabel" destination="p2n-vg-inU" id="0ES-2T-uT2"/>
                                             <outlet property="nameLabel" destination="fdZ-mf-cS3" id="mNN-Zb-XAy"/>
@@ -91,12 +92,19 @@
                             <constraint firstItem="GcS-SA-HUs" firstAttribute="leading" secondItem="E8f-xd-3sk" secondAttribute="leading" id="hHN-vT-Bcp"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tinkoff Chat" id="7zi-E8-uV5">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="settings" id="gDB-gX-Tow">
-                            <connections>
-                                <action selector="settingsButtonTapped:" destination="9Ji-r2-HIe" id="lAp-rq-K7b"/>
-                            </connections>
-                        </barButtonItem>
+                    <navigationItem key="navigationItem" title="Channels" id="7zi-E8-uV5">
+                        <leftBarButtonItems>
+                            <barButtonItem title="Item" image="settings" id="gDB-gX-Tow">
+                                <connections>
+                                    <action selector="settingsButtonTapped:" destination="9Ji-r2-HIe" id="lAp-rq-K7b"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="New chat" id="2mK-8S-vuP">
+                                <connections>
+                                    <action selector="newChatBarButtonItemTapped:" destination="9Ji-r2-HIe" id="wK7-Fy-t4e"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="GcS-SA-HUs" id="SCa-t6-uip"/>
@@ -311,8 +319,8 @@
                         <constraints>
                             <constraint firstItem="vvC-Z6-2V4" firstAttribute="trailing" secondItem="8XC-gF-wZy" secondAttribute="trailing" id="JFA-fX-UKx"/>
                             <constraint firstItem="vvC-Z6-2V4" firstAttribute="top" secondItem="8XC-gF-wZy" secondAttribute="top" id="RGk-so-kPl"/>
-                            <constraint firstItem="vvC-Z6-2V4" firstAttribute="bottom" secondItem="Paf-mw-7UN" secondAttribute="bottom" id="SVb-69-Khi"/>
                             <constraint firstItem="vvC-Z6-2V4" firstAttribute="leading" secondItem="8XC-gF-wZy" secondAttribute="leading" id="dGK-Q8-4Nc"/>
+                            <constraint firstItem="8XC-gF-wZy" firstAttribute="bottom" secondItem="vvC-Z6-2V4" secondAttribute="bottom" id="f56-rd-bHO"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="no name" id="uy1-bH-gaF"/>
@@ -322,7 +330,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tLV-Z5-SdG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="260" y="71"/>
+            <point key="canvasLocation" x="260" y="70.614692653673174"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -372,7 +380,7 @@
                                             <constraint firstItem="rzz-QR-1FK" firstAttribute="leading" secondItem="53M-Ts-JTJ" secondAttribute="leading" id="s0n-7N-6pZ"/>
                                         </constraints>
                                     </view>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ФИО" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k9C-Ja-cnG">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ФИО" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k9C-Ja-cnG">
                                         <rect key="frame" x="16" y="259" width="343" height="30.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
@@ -382,7 +390,7 @@
                                         <rect key="frame" x="32" y="297.5" width="311" height="215.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" systemColor="labelColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i1i-iz-qGt">
@@ -399,30 +407,14 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Yb7-Tk-sgZ">
                                         <rect key="frame" x="16" y="563" width="343" height="40"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8eF-Qm-eeG">
-                                                <rect key="frame" x="0.0" y="0.0" width="163.5" height="40"/>
-                                                <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="1ry-hZ-NHc"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                                <state key="normal" title="Save gcd">
-                                                    <color key="titleColor" systemColor="systemBlueColor"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                        <integer key="value" value="10"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rx6-hq-eOV">
-                                                <rect key="frame" x="179.5" y="0.0" width="163.5" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="343" height="40"/>
                                                 <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="CzF-2T-awj"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                                <state key="normal" title="Save Operations">
+                                                <state key="normal" title="Save">
                                                     <color key="titleColor" systemColor="systemBlueColor"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -501,7 +493,6 @@
                         <outlet property="editButton" destination="i1i-iz-qGt" id="LSf-03-CkM"/>
                         <outlet property="nameLabel" destination="k9C-Ja-cnG" id="9Hr-yc-t28"/>
                         <outlet property="saveButtonsStackView" destination="Yb7-Tk-sgZ" id="1DL-rl-UdE"/>
-                        <outlet property="saveGCDButton" destination="8eF-Qm-eeG" id="yto-5U-YrK"/>
                         <outlet property="saveOpeartionsButton" destination="rx6-hq-eOV" id="CsY-bA-RaW"/>
                         <outlet property="scrollView" destination="VDL-EP-G0F" id="NPh-sS-5DC"/>
                     </connections>
@@ -549,7 +540,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="avatar" width="119" height="119"/>
         <image name="avatar2" width="32" height="36"/>
         <image name="settings" width="25" height="25"/>
         <namedColor name="AccentColor">

@@ -7,16 +7,13 @@
 
 import UIKit
 
-
 class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     
     var userDataStore: UserDataStore?
     
     private var profileModel: ProfileViewModel?
     
-    
     private var theme: Theme = ThemeDataStore.shared.theme
-    
     
     private var currentState: ProfileViewState = .base
     
@@ -33,7 +30,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     
     @IBOutlet weak private var editButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var saveGCDButton: UIButton!
     @IBOutlet weak var saveOpeartionsButton: UIButton!
     
     @IBOutlet weak var saveButtonsStackView: UIStackView!
@@ -50,7 +46,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         case hasChanges // есть изменения
         case saving // сохраняемся
     }
-    
     
     // MARK: Life cycle
     
@@ -115,19 +110,18 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         (userDataStore?.profileManager as? OperationProfileDataManager)?.operationQueue.cancelAllOperations()
     }
     
-    
     /// Надстройка, чтоб скролвью позволял скролиться при открытой клавиатуре
     private func setupKeyboard() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc private func keyboardWillShow(notification: NSNotification){
+    @objc private func keyboardWillShow(notification: NSNotification) {
         guard let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         scrollView.contentInset.bottom = view.convert(keyboardFrame.cgRectValue, from: nil).size.height
     }
     
-    @objc private func keyboardWillHide(notification: NSNotification){
+    @objc private func keyboardWillHide(notification: NSNotification) {
         scrollView.contentInset.bottom = 0
     }
     
@@ -177,13 +171,12 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
             saveButtonsStackView.isHidden = false
             
             // но кнопки пока неактивны - не было никаких изменений
-            saveGCDButton.isEnabled = false
             saveOpeartionsButton.isEnabled = false
             
             // редактирование полей разрешено
             nameLabel.isEnabled = true
             // перевод клавиатуры на редактирования первого поля
-            if (!photoFirstChanged) {
+            if !photoFirstChanged {
                 nameLabel.becomeFirstResponder()
             }
             
@@ -192,11 +185,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
             
         case .hasChanges:
             // найдены изменения, кнопки активировать
-            saveGCDButton.isEnabled = true
             saveOpeartionsButton.isEnabled = true
         case .saving:
             activityIndicatorView.startAnimating()
-            saveGCDButton.isEnabled = false
             saveOpeartionsButton.isEnabled = false
         }
         
@@ -213,9 +204,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         
         cancelButton.titleLabel?.textColor = theme.mainColors.buttons.text
         cancelButton.backgroundColor = theme.mainColors.buttons.primaryButtonBackground
-        
-        saveGCDButton.titleLabel?.textColor = theme.mainColors.buttons.text
-        saveGCDButton.backgroundColor = theme.mainColors.buttons.primaryButtonBackground
         
         saveOpeartionsButton.titleLabel?.textColor = theme.mainColors.buttons.text
         saveOpeartionsButton.backgroundColor = theme.mainColors.buttons.primaryButtonBackground
@@ -244,11 +232,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         
         cancelButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelButtonTapped(_:))))
         editButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(editButtonTapped(_:))))
-        
-        saveGCDButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(GCDSaveTapped(_:))))
         saveOpeartionsButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(OperationsSaveTapped(_:))))
     }
-    
     
     // MARK: Private API
     
@@ -266,8 +251,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         var hasDataChanges = false
         
         // если что-то было изменено
-        if  (profileModel?.name != nameLabel.text || profileModel?.description != descriptionLabel.text ||
-                profileModel?.avatar !== avatarImageView.image) {
+        if  profileModel?.name != nameLabel.text || profileModel?.description != descriptionLabel.text ||
+                profileModel?.avatar !== avatarImageView.image {
             hasDataChanges = true
         }
         
@@ -294,12 +279,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
                     })
                     
                 }
-            }
-            else { // что-то пошло не так. Повторить?
+            } else { // что-то пошло не так. Повторить?
                 DispatchQueue.main.async {
                     self?.changeView(state: .view)
                     
-                    self?.showAlert(title: "Error", message: "error while saving content. Retry?", retryAction:  {
+                    self?.showAlert(title: "Error", message: "error while saving content. Retry?", retryAction: {
                         self?.saveProfileChanges()
                     })
                 }
@@ -307,22 +291,20 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         })
     }
     
-    
     /// показ alert с предложениями по загрузке фото (из галереи, сделать фото)
     private func showAvatarChangeActionSheet() {
         let alert = UIAlertController(title: "Загрузить фото", message: "Выберите способ загрузки фотографии", preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: "Установить из галереи", style: .default, handler: { [self] (_) in
             
-            if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
+            if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
                 imagePicker.sourceType = .savedPhotosAlbum
                 present(imagePicker, animated: true, completion: nil)
             }
         }))
         
-        if UIImagePickerController.isSourceTypeAvailable(.camera){
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
             alert.addAction(UIAlertAction(title: "Сделать фото", style: .default, handler: { (_) in
-                
                 
                 self.imagePicker.sourceType = .camera
                 self.present(self.imagePicker, animated: true, completion: nil)
@@ -353,8 +335,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
                 closeAction()
             }))
-        }
-        else {
+        } else {
             alert.addAction(UIAlertAction(title: "OK", style: .default))
         }
         
@@ -378,16 +359,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     @objc func cancelButtonTapped(_ sender: Any) {
+        if currentState == .saving {
+            (userDataStore?.profileManager as? OperationProfileDataManager)?.operationQueue.cancelAllOperations()
+        }
+        
         avatarImageView.image = userDataStore?.profile?.avatar
         nameLabel.text = userDataStore?.profile?.name
         descriptionLabel.text = userDataStore?.profile?.description
         
         changeView(state: .view)
-    }
-    
-    @objc func GCDSaveTapped(_ sender: Any) {
-        userDataStore = UserDataStore(profileManager: GCDProfileDataManager())
-        saveButtonTapped()
     }
     
     @objc func OperationsSaveTapped(_ sender: Any) {
@@ -407,12 +387,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     }
 }
 
-
 // MARK: - UIImagePickerControllerDelegate
 
 extension ProfileViewController: UIImagePickerControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         picker.dismiss(animated: true, completion: nil)
         guard let image = info[.originalImage] as? UIImage else {
             fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
@@ -426,7 +405,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
     }
 }
 
-
 // MARK: - UITextViewDelegate, UITextFieldDelegate
 
 extension ProfileViewController: UITextViewDelegate, UITextFieldDelegate {
@@ -439,7 +417,7 @@ extension ProfileViewController: UITextViewDelegate, UITextFieldDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         // чтобы убрать клавиатуру при тапе на done
-        if (text == "\n") {
+        if text == "\n" {
             textView.resignFirstResponder()
         }
         return true

@@ -3,17 +3,24 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24E142BDF22F783D63E23735 /* Pods_TinkoffChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7DE9C29B4257DE352F63803 /* Pods_TinkoffChat.framework */; };
 		8001D50525ED813F002E6B9A /* DialogTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8001D50425ED813F002E6B9A /* DialogTableViewCell.swift */; };
 		8001D50725ED8D24002E6B9A /* ConversationChatData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8001D50625ED8D24002E6B9A /* ConversationChatData.swift */; };
 		8001D50E25ED8F66002E6B9A /* ConversationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8001D50D25ED8F66002E6B9A /* ConversationListViewController.swift */; };
 		8001D51025ED9677002E6B9A /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8001D50F25ED9677002E6B9A /* DateExt.swift */; };
+		800749C2260B7B2200A44A62 /* ScrollVIewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800749C1260B7B2200A44A62 /* ScrollVIewExt.swift */; };
+		8013850D260B889800706475 /* FlexibleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8013850C260B889800706475 /* FlexibleTextView.swift */; };
 		8020EF9525EE8F3C00DD0877 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8020EF9425EE8F3C00DD0877 /* ConversationViewController.swift */; };
 		8020EF9925EE91F400DD0877 /* DetailedConversationChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8020EF9825EE91F400DD0877 /* DetailedConversationChatModel.swift */; };
 		802A492625F6AC4B0054C408 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802A492525F6AC4B0054C408 /* ThemesViewController.swift */; };
+		802DB5792608B54700056906 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 802DB5782608B54700056906 /* GoogleService-Info.plist */; };
+		802DB57D2608B72800056906 /* FireStoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802DB57C2608B72800056906 /* FireStoreManager.swift */; };
+		802DB5812608B7C800056906 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802DB5802608B7C800056906 /* Channel.swift */; };
+		802DB5852608B7E000056906 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802DB5842608B7E000056906 /* Message.swift */; };
 		8034BABF25EEAF6B00685762 /* MyMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034BABD25EEAF6B00685762 /* MyMessageTableViewCell.swift */; };
 		8034BAC025EEAF6B00685762 /* MyMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8034BABE25EEAF6B00685762 /* MyMessageTableViewCell.xib */; };
 		8034BAC325EEB13700685762 /* NotMyMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8034BAC125EEB13700685762 /* NotMyMessageTableViewCell.swift */; };
@@ -29,7 +36,6 @@
 		809D7BA62603C8D800F91521 /* GCDThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809D7BA52603C8D800F91521 /* GCDThemeManager.swift */; };
 		809D7BAA2603CDC800F91521 /* ThemeDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809D7BA92603CDC800F91521 /* ThemeDataStore.swift */; };
 		809D7BAC2603D35100F91521 /* CustomSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809D7BAB2603D35100F91521 /* CustomSplashViewController.swift */; };
-		809EE4E525F14DFE00D8A153 /* mockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809EE4E425F14DFE00D8A153 /* mockData.swift */; };
 		80B7734E25FAA8210083C6A6 /* ThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B7734D25FAA8210083C6A6 /* ThemeModel.swift */; };
 		80CD4F2E25FFFC7A008A35B2 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CD4F2D25FFFC7A008A35B2 /* ProfileModel.swift */; };
 		80CD4F3225FFFEB2008A35B2 /* DataManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CD4F3125FFFEB2008A35B2 /* DataManagerProtocol.swift */; };
@@ -41,13 +47,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7CCC44F90487D8FFB49F03E0 /* Pods-TinkoffChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TinkoffChat.release.xcconfig"; path = "Target Support Files/Pods-TinkoffChat/Pods-TinkoffChat.release.xcconfig"; sourceTree = "<group>"; };
 		8001D50425ED813F002E6B9A /* DialogTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogTableViewCell.swift; sourceTree = "<group>"; };
 		8001D50625ED8D24002E6B9A /* ConversationChatData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationChatData.swift; sourceTree = "<group>"; };
 		8001D50D25ED8F66002E6B9A /* ConversationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewController.swift; sourceTree = "<group>"; };
 		8001D50F25ED9677002E6B9A /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
+		800749C1260B7B2200A44A62 /* ScrollVIewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollVIewExt.swift; sourceTree = "<group>"; };
+		8013850C260B889800706475 /* FlexibleTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexibleTextView.swift; sourceTree = "<group>"; };
 		8020EF9425EE8F3C00DD0877 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		8020EF9825EE91F400DD0877 /* DetailedConversationChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedConversationChatModel.swift; sourceTree = "<group>"; };
 		802A492525F6AC4B0054C408 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
+		802DB5782608B54700056906 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		802DB57C2608B72800056906 /* FireStoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreManager.swift; sourceTree = "<group>"; };
+		802DB5802608B7C800056906 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		802DB5842608B7E000056906 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		8034BABD25EEAF6B00685762 /* MyMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMessageTableViewCell.swift; sourceTree = "<group>"; };
 		8034BABE25EEAF6B00685762 /* MyMessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyMessageTableViewCell.xib; sourceTree = "<group>"; };
 		8034BAC125EEB13700685762 /* NotMyMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotMyMessageTableViewCell.swift; sourceTree = "<group>"; };
@@ -65,7 +78,6 @@
 		809D7BA52603C8D800F91521 /* GCDThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDThemeManager.swift; sourceTree = "<group>"; };
 		809D7BA92603CDC800F91521 /* ThemeDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeDataStore.swift; sourceTree = "<group>"; };
 		809D7BAB2603D35100F91521 /* CustomSplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSplashViewController.swift; sourceTree = "<group>"; };
-		809EE4E425F14DFE00D8A153 /* mockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mockData.swift; sourceTree = "<group>"; };
 		80B7734D25FAA8210083C6A6 /* ThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeModel.swift; sourceTree = "<group>"; };
 		80CD4F2D25FFFC7A008A35B2 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		80CD4F3125FFFEB2008A35B2 /* DataManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerProtocol.swift; sourceTree = "<group>"; };
@@ -74,6 +86,8 @@
 		80CD4F3C26000268008A35B2 /* OperationProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationProfileManager.swift; sourceTree = "<group>"; };
 		80CD4F3F260002FF008A35B2 /* UserDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataStore.swift; sourceTree = "<group>"; };
 		80DCC23D25F7B34F00763AD1 /* ThemeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeApp.swift; sourceTree = "<group>"; };
+		C7DE9C29B4257DE352F63803 /* Pods_TinkoffChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TinkoffChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F167808A373D2D55CAF7CD18 /* Pods-TinkoffChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TinkoffChat.debug.xcconfig"; path = "Target Support Files/Pods-TinkoffChat/Pods-TinkoffChat.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,12 +95,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24E142BDF22F783D63E23735 /* Pods_TinkoffChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3FF49DC2D705C3793287E3D3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C7DE9C29B4257DE352F63803 /* Pods_TinkoffChat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8001D50825ED8EFF002E6B9A /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +125,7 @@
 			children = (
 				8090482D25E3ADBF00E3BF35 /* ApplicationExt.swift */,
 				8001D50F25ED9677002E6B9A /* DateExt.swift */,
+				800749C1260B7B2200A44A62 /* ScrollVIewExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -142,8 +166,27 @@
 			isa = PBXGroup;
 			children = (
 				8020EF9425EE8F3C00DD0877 /* ConversationViewController.swift */,
+				8013850C260B889800706475 /* FlexibleTextView.swift */,
 			);
 			path = Detail;
+			sourceTree = "<group>";
+		};
+		802DB57B2608B70D00056906 /* FireStore */ = {
+			isa = PBXGroup;
+			children = (
+				802DB57F2608B7B700056906 /* Models */,
+				802DB57C2608B72800056906 /* FireStoreManager.swift */,
+			);
+			path = FireStore;
+			sourceTree = "<group>";
+		};
+		802DB57F2608B7B700056906 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				802DB5802608B7C800056906 /* Channel.swift */,
+				802DB5842608B7E000056906 /* Message.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		8096399A25D7DFCE0038EFEE = {
@@ -151,6 +194,8 @@
 			children = (
 				809639A525D7DFCE0038EFEE /* TinkoffChat */,
 				809639A425D7DFCE0038EFEE /* Products */,
+				EB86CD26A04BDEA4E4141282 /* Pods */,
+				3FF49DC2D705C3793287E3D3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,9 +210,9 @@
 		809639A525D7DFCE0038EFEE /* TinkoffChat */ = {
 			isa = PBXGroup;
 			children = (
+				802DB57B2608B70D00056906 /* FireStore */,
 				80B7734C25FAA8020083C6A6 /* Theme */,
 				8090482F25E3AE7400E3BF35 /* Logger.swift */,
-				809EE4E425F14DFE00D8A153 /* mockData.swift */,
 				8001D50A25ED8F17002E6B9A /* Dialogs */,
 				8001D50825ED8EFF002E6B9A /* Profile */,
 				8001D50925ED8F07002E6B9A /* Extensions */,
@@ -177,6 +222,7 @@
 				809639AC25D7DFCE0038EFEE /* Main.storyboard */,
 				809639AF25D7DFCF0038EFEE /* Assets.xcassets */,
 				809639B125D7DFCF0038EFEE /* LaunchScreen.storyboard */,
+				802DB5782608B54700056906 /* GoogleService-Info.plist */,
 				809639B425D7DFCF0038EFEE /* Info.plist */,
 			);
 			path = TinkoffChat;
@@ -230,6 +276,15 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		EB86CD26A04BDEA4E4141282 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F167808A373D2D55CAF7CD18 /* Pods-TinkoffChat.debug.xcconfig */,
+				7CCC44F90487D8FFB49F03E0 /* Pods-TinkoffChat.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -237,9 +292,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 809639B725D7DFCF0038EFEE /* Build configuration list for PBXNativeTarget "TinkoffChat" */;
 			buildPhases = (
+				29D288D34DDA0014DA6F1F54 /* [CP] Check Pods Manifest.lock */,
 				8096399F25D7DFCE0038EFEE /* Sources */,
 				809639A025D7DFCE0038EFEE /* Frameworks */,
 				809639A125D7DFCE0038EFEE /* Resources */,
+				694917A9D0C67ACA333ECE4A /* [CP] Embed Pods Frameworks */,
+				80272CD8260D1E220002E895 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -292,10 +350,70 @@
 				8034BAC025EEAF6B00685762 /* MyMessageTableViewCell.xib in Resources */,
 				809639B025D7DFCF0038EFEE /* Assets.xcassets in Resources */,
 				809639AE25D7DFCE0038EFEE /* Main.storyboard in Resources */,
+				802DB5792608B54700056906 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		29D288D34DDA0014DA6F1F54 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TinkoffChat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		694917A9D0C67ACA333ECE4A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TinkoffChat/Pods-TinkoffChat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TinkoffChat/Pods-TinkoffChat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TinkoffChat/Pods-TinkoffChat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80272CD8260D1E220002E895 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8096399F25D7DFCE0038EFEE /* Sources */ = {
@@ -306,6 +424,8 @@
 				8090482E25E3ADBF00E3BF35 /* ApplicationExt.swift in Sources */,
 				8020EF9525EE8F3C00DD0877 /* ConversationViewController.swift in Sources */,
 				80CD4F3626000043008A35B2 /* FileUtils.swift in Sources */,
+				802DB5852608B7E000056906 /* Message.swift in Sources */,
+				800749C2260B7B2200A44A62 /* ScrollVIewExt.swift in Sources */,
 				80CD4F3D26000268008A35B2 /* OperationProfileManager.swift in Sources */,
 				8090483225E3C5B600E3BF35 /* ProfileViewController.swift in Sources */,
 				80CD4F2E25FFFC7A008A35B2 /* ProfileModel.swift in Sources */,
@@ -314,14 +434,16 @@
 				802A492625F6AC4B0054C408 /* ThemesViewController.swift in Sources */,
 				8001D50725ED8D24002E6B9A /* ConversationChatData.swift in Sources */,
 				8020EF9925EE91F400DD0877 /* DetailedConversationChatModel.swift in Sources */,
+				802DB57D2608B72800056906 /* FireStoreManager.swift in Sources */,
 				8034BABF25EEAF6B00685762 /* MyMessageTableViewCell.swift in Sources */,
 				8001D50525ED813F002E6B9A /* DialogTableViewCell.swift in Sources */,
+				8013850D260B889800706475 /* FlexibleTextView.swift in Sources */,
 				809D7BAC2603D35100F91521 /* CustomSplashViewController.swift in Sources */,
-				809EE4E525F14DFE00D8A153 /* mockData.swift in Sources */,
 				8001D50E25ED8F66002E6B9A /* ConversationListViewController.swift in Sources */,
 				809639AB25D7DFCE0038EFEE /* ViewController.swift in Sources */,
 				80CD4F40260002FF008A35B2 /* UserDataStore.swift in Sources */,
 				809639A725D7DFCE0038EFEE /* AppDelegate.swift in Sources */,
+				802DB5812608B7C800056906 /* Channel.swift in Sources */,
 				80DCC23E25F7B34F00763AD1 /* ThemeApp.swift in Sources */,
 				80B7734E25FAA8210083C6A6 /* ThemeModel.swift in Sources */,
 				809D7BAA2603CDC800F91521 /* ThemeDataStore.swift in Sources */,
@@ -471,6 +593,7 @@
 		};
 		809639B825D7DFCF0038EFEE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F167808A373D2D55CAF7CD18 /* Pods-TinkoffChat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -481,7 +604,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.nickyapp.TinkoffChat;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.tinkoff.TinkoffChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -490,6 +613,7 @@
 		};
 		809639B925D7DFCF0038EFEE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7CCC44F90487D8FFB49F03E0 /* Pods-TinkoffChat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -500,7 +624,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.nickyapp.TinkoffChat;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.tinkoff.TinkoffChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

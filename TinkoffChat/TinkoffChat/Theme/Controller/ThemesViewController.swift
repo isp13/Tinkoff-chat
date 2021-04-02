@@ -11,7 +11,6 @@ import UIKit
 // теоретически он возможен если бы мы обращались к self полям др класса в замыкании не по weak ссылке, а по strong
 // - тогда объекты остаются захваченными в замыкании и не могут быть удалены
 
-
 protocol ThemesPickerDelegate: AnyObject {
     func themeDidChange(_ theme: Theme)
 }
@@ -30,9 +29,7 @@ class ThemesViewController: UIViewController {
     
     var closure: ((Theme) -> Void )?
     
-    
     var themeManager = ThemeDataStore.shared
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +65,7 @@ class ThemesViewController: UIViewController {
         dayNameLabel.textColor = themeManager.theme.mainColors.profile.text
         nightNameLabel.textColor = themeManager.theme.mainColors.profile.text
         
-        self.view.backgroundColor =  themeManager.theme.mainColors.primaryBackground
+        self.view.backgroundColor = themeManager.theme.mainColors.primaryBackground
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
@@ -78,22 +75,19 @@ class ThemesViewController: UIViewController {
                 if success {
                     
                     DispatchQueue.main.async {
-                        switch (themeId) {
+                        switch themeId {
                         case 0: // classic
                             classicView.layer.borderWidth = 2
                             dayView.layer.borderWidth = 0
                             nightView.layer.borderWidth = 0
-                            break
                         case 1: // day
                             classicView.layer.borderWidth = 0
                             dayView.layer.borderWidth = 2
                             nightView.layer.borderWidth = 0
-                            break
                         case 2: // night
                             classicView.layer.borderWidth = 0
                             dayView.layer.borderWidth = 0
                             nightView.layer.borderWidth = 2
-                            break
                         default: // never happens
                             break
                         }

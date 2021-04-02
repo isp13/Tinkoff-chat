@@ -5,7 +5,6 @@
 //  Created by Никита Казанцев on 16.03.2021.
 //
 
-
 import UIKit
 
 class OperationProfileDataManager: IProfileDataManager {
@@ -72,7 +71,6 @@ class LoadDataFromDiskOperation: Operation {
     }
 }
 
-
 class WriteDataToDiskOperation: Operation {
     
     let data: Data?
@@ -87,16 +85,14 @@ class WriteDataToDiskOperation: Operation {
     }
     
     override func main() {
-        //sleep(5) // чтоб проверить на случай если мгновенно выходить из вьюшки
+        // sleep(5) // чтоб проверить на случай если мгновенно выходить из вьюшки
         guard !isCancelled else { return }
         
         Logger.log("OPERATION \(fileName)")
         
-        
         success = FileUtils.save(data: data, fileName: fileName)
     }
 }
-
 
 class WriteProfileOperation: Operation {
     
@@ -127,7 +123,6 @@ class WriteProfileOperation: Operation {
         completion(!hasErrors)
     }
 }
-
 
 class ReadProfileOperation: Operation {
     let nameOperation: LoadDataFromDiskOperation

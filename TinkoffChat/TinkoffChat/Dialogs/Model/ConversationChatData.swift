@@ -15,7 +15,6 @@ protocol ConversationCellConfiguration {
     var hasUnreadMessages: Bool { get set }
 }
 
-
 struct ConversationChatData: ConversationCellConfiguration {
     var name: String?
     var message: String?

@@ -24,7 +24,6 @@ final class GCDThemeManager {
             group.leave()
         }
         
-        
         group.notify(queue: .global(qos: .default)) {
             completion(success)
         }
@@ -35,9 +34,8 @@ final class GCDThemeManager {
             if let theme = FileUtils.read(fileName: ThemeItemsTags.themeStyle.rawValue),
                let themeRaw = String(data: theme, encoding: .utf8),
                let themeIndex = Int(themeRaw) {
-                completion(Theme.init(themeIndex))
-            }
-            else {
+                completion(Theme(themeIndex))
+            } else {
                 completion(nil)
             }
         }

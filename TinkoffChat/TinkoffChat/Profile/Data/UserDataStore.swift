@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class UserDataStore {
     
     static var shared: UserDataStore = UserDataStore()

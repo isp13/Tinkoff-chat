@@ -5,7 +5,6 @@
 //  Created by Никита Казанцев on 02.03.2021.
 //
 
-
 import Foundation
 
 extension Date {
@@ -53,9 +52,7 @@ extension Date {
         dateformat.dateStyle = dateStyle
         dateformat.timeStyle = timeStyle
         dateformat.timeZone = TimeZone.current
-        dateformat.locale = Locale.init(identifier: Locale.preferredLanguages.first!)
-        
-        
+        dateformat.locale = Locale(identifier: Locale.preferredLanguages.first!)
 
         return dateformat.string(from: self)
     }
@@ -63,8 +60,7 @@ extension Date {
     func chatDateRepresentation() -> String {
         if self.startOfDay == Date().startOfDay {
             return UTCtoClockTime(currentDate: self)
-        }
-        else {
+        } else {
             return UTCtoClockTime(currentDate: self, format: "dd MMM")
         }
     }
@@ -75,6 +71,3 @@ extension Date {
         return dateString
     }
 }
-
-
-
