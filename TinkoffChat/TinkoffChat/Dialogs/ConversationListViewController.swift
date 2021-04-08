@@ -6,17 +6,42 @@
 //
 
 import UIKit
-
+import CoreData
 class ConversationListViewController: UIViewController {
     
     private var theme: Theme = ThemeDataStore.shared.theme
+
+    private var profileImage: UIImage?
     var userDataStore = UserDataStore.shared
+    
+    // следит за изменениями данных в контексте,
+    // позволяет работать с результатом исполнения NSFetchRequest
+    // кеширует результаты запросов
+    lazy var fetchedResultsController: NSFetchedResultsController<Channel_db> = {
+        let request = NSFetchRequest<Channel_db>(entityName: "Channel_db")
+        
+        let descriptor1 = NSSortDescriptor(key: "lastActivity", ascending: false)
+        let descriptor2 = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [descriptor1, descriptor2]
+        
+        request.resultType = .managedObjectResultType
+        request.fetchBatchSize = 20
+        
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: request,
+            managedObjectContext: FireStoreManager.shared.coredataStack.mainContext,
+            sectionNameKeyPath: nil, cacheName: nil)
+        
+        fetchedResultsController.delegate = self
+        
+        return fetchedResultsController
+    }()
     
     @IBOutlet weak private var tableView: UITableView!
     
-    private var channels: [ChannelModel] = []
-    
-    private var profileImage: UIImage?
+    deinit {
+        fetchedResultsController.delegate = nil
+    }
     
     // MARK: Life cycle
     
@@ -31,14 +56,10 @@ class ConversationListViewController: UIViewController {
         setupImageRightNavButton(UIImage(named: "avatar2")?.withRenderingMode(.alwaysOriginal))
         
         setupTheme()
+
+        updateChannels()
         
-        FireStoreManager.shared.updateChannels { [weak self] data in
-            
-            self?.channels = data
-            DispatchQueue.main.async {
-            self?.tableView.reloadData()
-            }
-        }
+        performFetch()
         
     }
     
@@ -98,6 +119,19 @@ class ConversationListViewController: UIViewController {
     }
     
     // MARK: Private API
+    
+    private func performFetch() {
+        do {
+            try
+                fetchedResultsController.performFetch()
+        } catch {
+            fatalError()
+        }
+    }
+    
+    private func updateChannels() {
+        FireStoreManager.shared.updateChannels()
+    }
     
     private func loadProfile() {
         userDataStore.readProfile { [weak self] (profile) in
@@ -163,8 +197,14 @@ class ConversationListViewController: UIViewController {
         if segue.identifier == "detailDialog" {
             // do something you want
             guard let destinationVC = segue.destination as? ConversationViewController, let indexPath = sender as? IndexPath else { return }
-            destinationVC.title = channels[indexPath.row].name
-            destinationVC.chat = channels[indexPath.row]
+            
+            let channel = fetchedResultsController.object(at: indexPath)
+            
+            destinationVC.title = channel.name
+            destinationVC.chat = ChannelModel(identifier: channel.identifier ?? "",
+                                              name: channel.name ?? "no name",
+                                              lastMessage: channel.lastMessage,
+                                              lastActivity: channel.lastActivity)
         } else if segue.identifier == "showProfileSegue" {
             guard let destinationVC = segue.destination as? ProfileViewController  else {return }
             
@@ -201,7 +241,14 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return channels.count
+        guard let sections = self.fetchedResultsController.sections
+        else {
+            return 0
+        }
+        
+        let sectionInfo = sections[section]
+        
+        return sectionInfo.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -209,13 +256,28 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
             fatalError("DequeueReusableCell failed while casting")
         }
         
-        cell.configure(with: channels[indexPath.row])
+        let channel = self.fetchedResultsController.object(at: indexPath)
+        cell.configure(with: channel)
         
         cell.configureTheme(theme: ThemeDataStore.shared.theme)
         
         cell.selectionStyle = .none
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") {(_, indexPath: IndexPath) -> Void in
+            let channel = self.fetchedResultsController.object(at: indexPath)
+            
+            FireStoreManager.shared.deleteChannelMessages(identifier: channel.identifier ?? "")
+            
+            FireStoreManager.shared.deleteChannel(identifier: channel.identifier ?? "")
+            
+            self.performFetch()
+
+        }
+        return [delete]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -230,4 +292,53 @@ extension ConversationListViewController: ThemesPickerDelegate {
         setupTheme()
         tableView.reloadData()
     }
+}
+
+// MARK: NSFetchedResultsControllerDelegate
+extension ConversationListViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert:
+            Logger.log("inserted")
+            guard let newIndexPath = newIndexPath else { return }
+            
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .move:
+            Logger.log("moved")
+            guard let newIndexPath = newIndexPath, let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            Logger.log("update")
+            guard let indexPath = indexPath else { return }
+            guard let cell = tableView.cellForRow(at: indexPath) as? DialogTableViewCell else {
+                return
+            }
+            guard let channel = controller.object(at: indexPath) as? Channel_db else { return }
+            cell.configure(with: channel)
+            
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        case .delete:
+            Logger.log("delete")
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        default:
+            Logger.log("must not be called")
+        }
+    }
+    
 }

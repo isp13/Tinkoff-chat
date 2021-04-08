@@ -10,6 +10,12 @@ import CoreData
 import Firebase
 
 extension Message_db {
+    
+    @nonobjc public class func fetchRequest(identifier: String) -> NSFetchRequest<Message_db> {
+            let request = NSFetchRequest<Message_db>(entityName: "Message_db")
+            request.predicate = NSPredicate(format: "identifier == %@", identifier)
+            return request
+        }
 
     convenience init(message: MessageModel, in context: NSManagedObjectContext) {
         self.init(context: context)

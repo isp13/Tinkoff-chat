@@ -26,7 +26,7 @@ class DialogTableViewCell: UITableViewCell {
         super.layoutSubviews()
     }
     
-    func configure(with model: ChannelModel) {
+    func configure(with model: Channel_db) {
         self.nameLabel.text = model.name
         
         if let chatMessage = model.lastMessage {
