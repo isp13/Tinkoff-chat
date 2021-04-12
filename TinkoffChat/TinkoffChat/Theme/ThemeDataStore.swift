@@ -9,10 +9,12 @@ import UIKit
 
 class ThemeDataStore {
     
-    static var shared: ThemeDataStore = ThemeDataStore()
-    
     // gcd or operations
-    let gcdManager = GCDThemeManager()
+    let gcdManager : GCDThemeManager
+    
+    init (gcdManager : GCDThemeManager) {
+        self.gcdManager = gcdManager
+    }
     
     private(set) var theme: Theme = .Default
     

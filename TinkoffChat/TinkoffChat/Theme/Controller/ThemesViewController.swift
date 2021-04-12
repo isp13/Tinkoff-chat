@@ -29,12 +29,12 @@ class ThemesViewController: UIViewController {
     
     var closure: ((Theme) -> Void )?
     
-    var themeManager = ThemeDataStore.shared
+    var themeManager : ThemeDataStore?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = themeManager.theme.mainColors.primaryBackground
+        view.backgroundColor = themeManager?.theme.mainColors.primaryBackground
         
         setupThemeButtons()
     }
@@ -49,29 +49,31 @@ class ThemesViewController: UIViewController {
         
         let tap3 = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         
+        if let theme = themeManager?.theme {
         classicView.addGestureRecognizer(tap)
-        classicView.layer.borderWidth = themeManager.theme.rawValue == 0 ? 2 : 0
+        classicView.layer.borderWidth = theme.rawValue == 0 ? 2 : 0
         classicView.layer.borderColor = UIColor.blue.cgColor
         
         dayView.addGestureRecognizer(tap2)
-        dayView.layer.borderWidth = themeManager.theme.rawValue == 1 ? 2 : 0
+        dayView.layer.borderWidth = theme.rawValue == 1 ? 2 : 0
         dayView.layer.borderColor = UIColor.blue.cgColor
         
         nightView.addGestureRecognizer(tap3)
-        nightView.layer.borderWidth = themeManager.theme.rawValue == 2 ? 2 : 0
+        nightView.layer.borderWidth = theme.rawValue == 2 ? 2 : 0
         nightView.layer.borderColor = UIColor.blue.cgColor
         
-        defaultNameLabel.textColor = themeManager.theme.mainColors.profile.text
-        dayNameLabel.textColor = themeManager.theme.mainColors.profile.text
-        nightNameLabel.textColor = themeManager.theme.mainColors.profile.text
+        defaultNameLabel.textColor = theme.mainColors.profile.text
+        dayNameLabel.textColor = theme.mainColors.profile.text
+        nightNameLabel.textColor = theme.mainColors.profile.text
         
-        self.view.backgroundColor = themeManager.theme.mainColors.primaryBackground
+        self.view.backgroundColor = theme.mainColors.primaryBackground
+        }
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         if let themeId = sender?.view?.tag {
             
-            themeManager.saveTheme(theme: Theme(themeId)) { [self] success in
+            themeManager?.saveTheme(theme: Theme(themeId)) { [self] success in
                 if success {
                     
                     DispatchQueue.main.async {
@@ -92,11 +94,14 @@ class ThemesViewController: UIViewController {
                             break
                         }
                         
-                        self.delegate?.themeDidChange(themeManager.theme)
-                        self.closure?(themeManager.theme)
-                        self.updateThemeWithAnimation(theme: themeManager.theme)
+                        if let theme = themeManager?.theme {
+                        self.delegate?.themeDidChange(theme)
+                        self.closure?(theme)
+                        self.updateThemeWithAnimation(theme: theme)
+                        
                         self.navigationController?.isNavigationBarHidden = true
                         self.navigationController?.isNavigationBarHidden = false
+                        }
                     }
                 }
             }

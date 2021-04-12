@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var oldStateType: UIApplication.State = .inactive
     
+    private let rootAssembly = RootAssembly()
+    
     // MARK: Launch
     
     /**
@@ -46,6 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
+        let controller = rootAssembly.presentationAssembly.customSplashViewController()
+        let navigationController = UINavigationController(rootViewController: controller)
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
         return true
     }
     

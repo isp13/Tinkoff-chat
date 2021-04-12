@@ -7,9 +7,14 @@
 
 import Foundation
 
-class FileUtils {
+protocol FileUtilsManagerProtocol {
+  func save(data: Data?, fileName: String) -> Bool
+  func read(fileName: String) -> Data?
+}
+
+class FileUtils: FileUtilsManagerProtocol {
     
-    static func save(data: Data?, fileName: String) -> Bool {
+    func save(data: Data?, fileName: String) -> Bool {
         let url = getDocumentsDirectory().appendingPathComponent(fileName)
         do {
             try data?.write(to: url)
@@ -21,20 +26,20 @@ class FileUtils {
         }
     }
     
-    static func read(fileName: String) -> Data? {
+    func read(fileName: String) -> Data? {
         let url = getDocumentsDirectory().appendingPathComponent(fileName)
         let data = try? Data(contentsOf: url)
         
         return data
     }
     
-    static func fileExist(fileName: String) -> Bool {
+    func fileExist(fileName: String) -> Bool {
         let url = getDocumentsDirectory().appendingPathComponent(fileName)
         
         return FileManager.default.fileExists(atPath: url.path)
     }
     
-    static func getDocumentsDirectory() -> URL {
+    func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         
         return paths[0]

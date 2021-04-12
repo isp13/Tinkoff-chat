@@ -9,10 +9,16 @@ import UIKit
 import CoreData
 class ConversationListViewController: UIViewController {
     
-    private var theme: Theme = ThemeDataStore.shared.theme
-
+    var themeDataStore: ThemeDataStore?
+    var theme: Theme?
+    
     private var profileImage: UIImage?
-    var userDataStore = UserDataStore.shared
+    
+    var userDataStore:  UserDataStoreProtocol?
+    var coreDataService: CoreDataServiceProtocol?
+    var fireStoreService: FireStoreServiceProtocol?
+    
+    var presentationAssembly: PresenentationAssemblyProtocol?
     
     // следит за изменениями данных в контексте,
     // позволяет работать с результатом исполнения NSFetchRequest
@@ -29,7 +35,7 @@ class ConversationListViewController: UIViewController {
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
-            managedObjectContext: FireStoreManager.shared.coredataStack.mainContext,
+            managedObjectContext: coreDataService!.mainContext,
             sectionNameKeyPath: nil, cacheName: nil)
         
         fetchedResultsController.delegate = self
@@ -38,6 +44,7 @@ class ConversationListViewController: UIViewController {
     }()
     
     @IBOutlet weak private var tableView: UITableView!
+    
     
     deinit {
         fetchedResultsController.delegate = nil
@@ -56,7 +63,7 @@ class ConversationListViewController: UIViewController {
         setupImageRightNavButton(UIImage(named: "avatar2")?.withRenderingMode(.alwaysOriginal))
         
         setupTheme()
-
+        
         updateChannels()
         
         performFetch()
@@ -71,7 +78,7 @@ class ConversationListViewController: UIViewController {
     // MARK: UI Setup
     
     private func setupTheme() {
-        let theme = ThemeDataStore.shared.theme
+        if let theme = themeDataStore?.theme {
         view.backgroundColor = theme.mainColors.primaryBackground
         if #available(iOS 13.0, *) {
             let navBarAppearance = UINavigationBarAppearance()
@@ -100,7 +107,7 @@ class ConversationListViewController: UIViewController {
         tableView.separatorColor = theme.mainColors.chatList.text
         tableView.backgroundColor = theme.mainColors.primaryBackground
         tableView.reloadData()
-        
+        }
     }
     
     private func setupImageRightNavButton(_ image: UIImage?) {
@@ -130,25 +137,21 @@ class ConversationListViewController: UIViewController {
     }
     
     private func updateChannels() {
-        FireStoreManager.shared.updateChannels()
+        fireStoreService?.updateChannels()
     }
     
     private func loadProfile() {
-        userDataStore.readProfile { [weak self] (profile) in
+        userDataStore?.readProfile { [weak self] (profile) in
             DispatchQueue.main.async {
-                self?.profileImage = self?.userDataStore.profile?.avatar
+                self?.profileImage = self?.userDataStore?.profile?.avatar
                 self?.setupImageRightNavButton(self?.profileImage)
             }
         }
     }
     
     @IBAction func settingsButtonTapped(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "settings") as? ThemesViewController
-        
-        if let controller = viewController {
+        if let controller = presentationAssembly?.settingsViewController() {
             controller.delegate = self
-            //            controller.selectedTheme = theme
             
             controller.closure = {  [weak self] theme in
                 self?.theme = theme
@@ -156,9 +159,7 @@ class ConversationListViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.setupTheme()
                 }
-                
             }
-            
             navigationController?.pushViewController(controller, animated: true)
         }
     }
@@ -174,7 +175,7 @@ class ConversationListViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Создать", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields?.first 
             if let textFieldData = textField?.text, !textFieldData.trimmingCharacters(in: .whitespaces).isEmpty {
-                FireStoreManager.shared.createChannel(name: textFieldData) { result in
+                self.fireStoreService?.createChannel(name: textFieldData) { result in
                     if case Result.failure(_) = result {
                     }
                 }
@@ -192,32 +193,6 @@ class ConversationListViewController: UIViewController {
         self.navigationItem.rightBarButtonItem?.isEnabled = false
         self.performSegue(withIdentifier: "showProfileSegue", sender: sender)
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detailDialog" {
-            // do something you want
-            guard let destinationVC = segue.destination as? ConversationViewController, let indexPath = sender as? IndexPath else { return }
-            
-            let channel = fetchedResultsController.object(at: indexPath)
-            
-            destinationVC.title = channel.name
-            destinationVC.chat = ChannelModel(identifier: channel.identifier ?? "",
-                                              name: channel.name ?? "no name",
-                                              lastMessage: channel.lastMessage,
-                                              lastActivity: channel.lastActivity)
-        } else if segue.identifier == "showProfileSegue" {
-            guard let destinationVC = segue.destination as? ProfileViewController  else {return }
-            
-            destinationVC.userDataStore = userDataStore
-            destinationVC.existingImage = userDataStore.profile?.avatar
-            
-            destinationVC.onProfileChanged = { [weak self] (_) in
-                DispatchQueue.main.async {
-                    self?.loadProfile()
-                }
-            }
-        }
-    }
 }
 
 // MARK: - UITableViewDelegate
@@ -231,9 +206,9 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         guard let headerView = view as? UITableViewHeaderFooterView else { return }
         
-        headerView.contentView.backgroundColor = ThemeDataStore.shared.theme.mainColors.chatList.cellBackground
+        headerView.contentView.backgroundColor = themeDataStore?.theme.mainColors.chatList.cellBackground
         
-        headerView.textLabel?.textColor = ThemeDataStore.shared.theme.mainColors.chatList.text
+        headerView.textLabel?.textColor = themeDataStore?.theme.mainColors.chatList.text
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -251,6 +226,16 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
         return sectionInfo.numberOfObjects
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let channel = fetchedResultsController.object(at: indexPath)
+        if let conversationVC = presentationAssembly?.conversationViewController(channelId: channel.identifier ?? "", channelName: channel.name ?? "") {
+            conversationVC.chat = ChannelModel(identifier: channel.identifier ?? "", name: channel.name ?? "", lastMessage: channel.lastMessage, lastActivity: channel.lastActivity) 
+            navigationController?.pushViewController(conversationVC, animated: true)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "dialogCell") as? DialogTableViewCell else {
             fatalError("DequeueReusableCell failed while casting")
@@ -259,7 +244,9 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
         let channel = self.fetchedResultsController.object(at: indexPath)
         cell.configure(with: channel)
         
-        cell.configureTheme(theme: ThemeDataStore.shared.theme)
+        if let theme = themeDataStore?.theme {
+        cell.configureTheme(theme: theme)
+        }
         
         cell.selectionStyle = .none
         
@@ -270,19 +257,16 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") {(_, indexPath: IndexPath) -> Void in
             let channel = self.fetchedResultsController.object(at: indexPath)
             
-            FireStoreManager.shared.deleteChannelMessages(identifier: channel.identifier ?? "")
+            self.fireStoreService?.deleteChannelMessages(identifier: channel.identifier ?? "")
             
-            FireStoreManager.shared.deleteChannel(identifier: channel.identifier ?? "")
+            self.fireStoreService?.deleteChannel(identifier: channel.identifier ?? "")
             
             self.performFetch()
-
+            
         }
         return [delete]
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "detailDialog", sender: indexPath)
-    }
 }
 
 // MARK: - ThemesPickerDelegate

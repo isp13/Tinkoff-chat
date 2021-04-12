@@ -9,11 +9,11 @@ import UIKit
 
 class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     
-    var userDataStore: UserDataStore?
+    var userDataStore:  UserDataStoreProtocol?
     
     private var profileModel: ProfileViewModel?
     
-    private var theme: Theme = ThemeDataStore.shared.theme
+    var theme: Theme?
     
     private var currentState: ProfileViewState = .base
     
@@ -197,6 +197,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     
     /// применяем новую тему ко вью (изменяет цвета элементов вью)
     func applyTheme() {
+        if let theme = theme {
         view.backgroundColor = theme.mainColors.primaryBackground
         
         editButton.titleLabel?.textColor = theme.mainColors.buttons.text
@@ -210,6 +211,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         
         nameLabel.textColor = theme.mainColors.profile.text
         descriptionLabel.textColor = theme.mainColors.profile.text
+        }
     }
     
     private func setupImagePicker() {
@@ -371,7 +373,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     @objc func OperationsSaveTapped(_ sender: Any) {
-        userDataStore = UserDataStore(profileManager: OperationProfileDataManager())
         saveButtonTapped()
     }
     

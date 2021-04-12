@@ -8,15 +8,23 @@
 import UIKit
 
 class CustomSplashViewController: UIViewController {
-
+    var presentationAssembly: PresenentationAssemblyProtocol?
+    var themeDataStore: ThemeDataStore?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        ThemeDataStore.shared.readTheme { theme in
+        
+        applyThemeRedirect()
+    }
+    
+    private func applyThemeRedirect() {
+        guard let conversationListViewController = presentationAssembly?.conversationListViewController() else { return }
+        
+        themeDataStore?.readTheme { theme in
             DispatchQueue.main.async {
-            self.view.backgroundColor = theme.mainColors.primaryBackground
- 
-            self.performSegue(withIdentifier: "showMainAppViews", sender: self)
+                self.view.backgroundColor = theme.mainColors.primaryBackground
+
+                self.navigationController?.pushViewController(conversationListViewController, animated: true)
             }
         }
     }

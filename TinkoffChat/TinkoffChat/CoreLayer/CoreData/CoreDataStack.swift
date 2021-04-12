@@ -8,7 +8,16 @@
 import Foundation
 import CoreData
 
-class CoreDataStack {
+protocol CoreDataStackProtocol {
+    
+    var didUpdateDataBase: ((CoreDataStack) -> Void)? { get set }
+    var mainContext: NSManagedObjectContext { get }
+    
+    func performSave(_ block: (NSManagedObjectContext) -> Void)
+    func addStatisticObserver()
+}
+
+class CoreDataStack: CoreDataStackProtocol {
     var didUpdateDataBase: ((CoreDataStack) -> Void)?
     
     private lazy var storeURL: URL = {
@@ -80,31 +89,31 @@ class CoreDataStack {
     // MARK: - Saving
     
     func performSave(_ block: (NSManagedObjectContext) -> Void) {
-            let context = saveContext()
-            context.performAndWait {
-                block(context)
-                if context.hasChanges {
-                    do {
-                        try context.obtainPermanentIDs(for: Array(context.insertedObjects))
-                        performSave(in: context)
-                    } catch {
-                        Logger.log(error.localizedDescription)
-                    }
-                    
-                }
-            }
-        }
-        
-        private func performSave(in context: NSManagedObjectContext) {
-            context.performAndWait {
+        let context = saveContext()
+        context.performAndWait {
+            block(context)
+            if context.hasChanges {
                 do {
-                    try context.save()
+                    try context.obtainPermanentIDs(for: Array(context.insertedObjects))
+                    performSave(in: context)
                 } catch {
                     Logger.log(error.localizedDescription)
                 }
+                
             }
-            if let parent = context.parent { performSave(in: parent) }
         }
+    }
+    
+    private func performSave(in context: NSManagedObjectContext) {
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch {
+                Logger.log(error.localizedDescription)
+            }
+        }
+        if let parent = context.parent { performSave(in: parent) }
+    }
     
     // MARK: - CoreData Observers
     

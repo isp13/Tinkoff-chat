@@ -13,7 +13,7 @@
         <!--Channels-->
         <scene sceneID="y94-kf-i71">
             <objects>
-                <viewController id="9Ji-r2-HIe" customClass="ConversationListViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="conversationListViewController" id="9Ji-r2-HIe" customClass="ConversationListViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Qmt-cR-v4q">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -304,7 +304,7 @@
         <!--no name-->
         <scene sceneID="cnt-vl-fSP">
             <objects>
-                <viewController id="kOt-xg-bDX" customClass="ConversationViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="conversationViewController" id="kOt-xg-bDX" customClass="ConversationViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Paf-mw-7UN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -335,7 +335,7 @@
         <!--Profile View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ProfileViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profileViewController" id="BYZ-38-t0r" customClass="ProfileViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -504,7 +504,7 @@
         <!--Custom Splash View Controller-->
         <scene sceneID="h00-es-Xbb">
             <objects>
-                <viewController id="lny-6b-Oal" customClass="CustomSplashViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="customSplashViewController" id="lny-6b-Oal" customClass="CustomSplashViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Cp-Io-WTj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
