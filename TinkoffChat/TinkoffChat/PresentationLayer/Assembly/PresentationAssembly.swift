@@ -66,7 +66,8 @@ class PresenentationAssembly: PresenentationAssemblyProtocol {
     }
     
     func profileViewController() -> ProfileViewController {
-        guard let profileViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "profileViewController") as? ProfileViewController else {
+        guard let profileViewController = UIStoryboard(name: "Main", bundle: nil)
+                .instantiateViewController(withIdentifier: "profileViewController") as? ProfileViewController else {
             fatalError("Can't instantiate ConversationViewController")
         }
         profileViewController.userDataStore = serviceAssembly.userDataService
@@ -85,6 +86,4 @@ class PresenentationAssembly: PresenentationAssemblyProtocol {
         
         return settingsViewController
     }
-
-    
 }

@@ -17,7 +17,7 @@ protocol ServiceAssemblyProtocol {
 }
 
 class ServiceAssembly: ServiceAssemblyProtocol {
-    // components from CoreLayer
+    
     private let coreAssembly: CoreAssemblyProtocol
     
     // Services

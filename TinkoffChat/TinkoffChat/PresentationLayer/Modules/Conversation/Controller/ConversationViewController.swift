@@ -235,7 +235,9 @@ class ConversationViewController: UIViewController {
     
     @objc func sendMessageButtonTapped(_ sender: Any) {
         if let message = textField.text, !message.trimmingCharacters(in: .whitespaces).isEmpty {
-            fireStoreService?.createMessage(identifier: chat.identifier, newMessage: message)
+            DispatchQueue.global(qos: .default).async {
+                self.fireStoreService?.createMessage(identifier: self.chat.identifier, newMessage: message)
+            }
             textField.text = ""
         }
     }

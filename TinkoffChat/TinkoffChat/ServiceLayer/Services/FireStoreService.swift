@@ -46,7 +46,7 @@ class FireStoreService: FireStoreServiceProtocol {
             guard let self = self else {
                 return
             }
-
+            
             if error != nil {
                 return
             } else if let snapshot = snapshot {
@@ -57,7 +57,6 @@ class FireStoreService: FireStoreServiceProtocol {
                     let data = document.document.data()
                     
                     let identifier = document.document.documentID
-                    
                     guard let name = data["name"] as? String else { return }
                     let lastMessage = data["lastMessage"] as? String
                     let lastActivity = data["lastActivity"] as? Timestamp
@@ -65,25 +64,18 @@ class FireStoreService: FireStoreServiceProtocol {
                     let model = ChannelModel(identifier: identifier, name: name, lastMessage: lastMessage, lastActivity: lastActivity?.dateValue())
                     
                     if document.type == .removed { // удаляем канал
-                        Logger.log("deleting")
                         self.deleteChannelMessages(identifier: model.identifier )
-                        
                         self.deleteChannel(identifier: model.identifier )
-                        Logger.log("complete delete")
                     } else { // иначе сохраняем
                         channels.append(model)
                     }
                 }
-                Logger.log("before save")
                 
                 self.coredataStack.performSave { context in
                     channels.forEach {
                         _ = Channel_db(channel: $0, in: context)
                     }
-                    
                 }
-                
-                Logger.log("after save")
             }
         }
     }
@@ -106,7 +98,6 @@ class FireStoreService: FireStoreServiceProtocol {
                     let data = document.document.data()
                     
                     guard let content = data["content"] as? String, content.trimmingCharacters(in: .whitespaces).isEmpty == false else { return }
-                    
                     guard let timestamp = data["created"] as? Timestamp else { return }
                     guard let senderId = data["senderId"] as? String else { return }
                     guard let senderName = data["senderName"] as? String else { return }
@@ -135,6 +126,7 @@ class FireStoreService: FireStoreServiceProtocol {
     /// - Parameters:
     ///   - name: название канала
     func createChannel(name: String, handler: @escaping (Result<String, Error>) -> Void) {
+        
         var ref: DocumentReference?
         ref = reference.addDocument(data: ["name": name]) { (error) in
             if let error = error {
@@ -145,6 +137,7 @@ class FireStoreService: FireStoreServiceProtocol {
                 handler(.failure(NSError()))
             }
         }
+        
     }
     
     /// отсылка сообщения на сервер
@@ -154,7 +147,8 @@ class FireStoreService: FireStoreServiceProtocol {
                 "content": message,
                 "created": Timestamp(date: Date()),
                 "senderId": senderId,
-                "senderName": "Nikita Kazantsev"]) 
+                "senderName": "Nikita Kazantsev"])
+        
     }
     
     // удаление канала из fireStore

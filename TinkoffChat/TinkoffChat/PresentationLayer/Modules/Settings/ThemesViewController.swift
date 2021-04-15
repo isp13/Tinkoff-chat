@@ -29,7 +29,7 @@ class ThemesViewController: UIViewController {
     
     var closure: ((Theme) -> Void )?
     
-    var themeManager : ThemeDataStore?
+    var themeManager: ThemeDataStore?
     
     override func viewDidLoad() {
         super.viewDidLoad()

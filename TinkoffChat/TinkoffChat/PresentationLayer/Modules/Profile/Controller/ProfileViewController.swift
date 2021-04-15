@@ -9,31 +9,22 @@ import UIKit
 
 class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     
-    var userDataStore:  UserDataStoreProtocol?
-    
-    private var profileModel: ProfileViewModel?
-    
+    var userDataStore: UserDataStoreProtocol?
+    var existingImage: UIImage?
+    var onProfileChanged: ((ProfileViewModel) -> Void)?
     var theme: Theme?
     
+    private var profileModel: ProfileViewModel?
     private var currentState: ProfileViewState = .base
     
-    var onProfileChanged: ((ProfileViewModel) -> Void)?
-    
     @IBOutlet weak var scrollView: UIScrollView!
-    
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    
-    var existingImage: UIImage?
-    
     @IBOutlet weak private var avatarContainerView: UIView!
     @IBOutlet weak private var avatarImageView: UIImageView!
-    
     @IBOutlet weak private var editButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var saveOpeartionsButton: UIButton!
-    
     @IBOutlet weak var saveButtonsStackView: UIStackView!
-    
     @IBOutlet weak var nameLabel: UITextField!
     @IBOutlet weak var descriptionLabel: UITextView!
     
@@ -54,7 +45,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         
         // ошибка потому что кнопка еще не инициализирована и имеет значение nil
         // print(editButton.frame.debugDescription)
-        
         // можем это проверить
         // print(editButton)
         
@@ -63,7 +53,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         Logger.log(#function)
         
         // Frame кнопки отличается т.к. в Main.storyboard выбран iPhone SE(2nd generation), а запускаемый симулятор - iPhone 11.
@@ -87,11 +76,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         Logger.log(editButton.frame.debugDescription)
         
         setupAvatarImageView()
-        
         setupBottomButtons()
-        
         setupImagePicker()
-        
         setupProfile()
         
         applyTheme()

@@ -141,18 +141,3 @@ class CoreDataStack: CoreDataStackProtocol {
         Logger.log(storeURL.absoluteString)
     }
 }
-
-// class ModernCoreDataStack {
-//    private let dataBaseName = "Chat"
-//
-//    lazy var container: NSPersistentContainer = {
-//        let container = NSPersistentContainer(name: dataBaseName)
-//
-//        container.loadPersistentStores { storeDescription, error in
-//            if let error = error as NSError? {
-//                fatalError("something went wrong \(error.localizedDescription)")
-//            }
-//        }
-//        return container
-//    }()
-// }

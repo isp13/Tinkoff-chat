@@ -10,9 +10,9 @@ import UIKit
 class ThemeDataStore {
     
     // gcd or operations
-    let gcdManager : GCDThemeManager
+    let gcdManager: GCDThemeManager
     
-    init (gcdManager : GCDThemeManager) {
+    init (gcdManager: GCDThemeManager) {
         self.gcdManager = gcdManager
     }
     

@@ -14,7 +14,7 @@ class ConversationListViewController: UIViewController {
     
     private var profileImage: UIImage?
     
-    var userDataStore:  UserDataStoreProtocol?
+    var userDataStore: UserDataStoreProtocol?
     var coreDataService: CoreDataServiceProtocol?
     var fireStoreService: FireStoreServiceProtocol?
     
@@ -45,7 +45,6 @@ class ConversationListViewController: UIViewController {
     
     @IBOutlet weak private var tableView: UITableView!
     
-    
     deinit {
         fetchedResultsController.delegate = nil
     }
@@ -61,11 +60,9 @@ class ConversationListViewController: UIViewController {
         loadProfile()
         
         setupImageRightNavButton(UIImage(named: "avatar2")?.withRenderingMode(.alwaysOriginal))
-        
         setupTheme()
         
         updateChannels()
-        
         performFetch()
         
     }
@@ -79,34 +76,34 @@ class ConversationListViewController: UIViewController {
     
     private func setupTheme() {
         if let theme = themeDataStore?.theme {
-        view.backgroundColor = theme.mainColors.primaryBackground
-        if #available(iOS 13.0, *) {
-            let navBarAppearance = UINavigationBarAppearance()
-            navBarAppearance.configureWithOpaqueBackground()
-            navBarAppearance.titleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
-            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
-            navBarAppearance.backgroundColor = theme.mainColors.navigationBar.background
-            navigationController?.navigationBar.standardAppearance = navBarAppearance
-            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-        } else {
-            UINavigationBar.appearance().isTranslucent = false
-            self.navigationController?.navigationBar.barTintColor = theme.mainColors.navigationBar.tint
-            UINavigationBar.appearance().barStyle = theme.mainColors.navigationBar.barStyle
-            self.navigationController?.navigationBar.titleTextAttributes = [
-                NSAttributedString.Key.foregroundColor:
-                    theme.mainColors.navigationBar.title ]
-            UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
-            UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
-        }
-        
-        navigationController?.isNavigationBarHidden = true
-        navigationController?.isNavigationBarHidden = false
-        
-        setNeedsStatusBarAppearanceUpdate()
-        
-        tableView.separatorColor = theme.mainColors.chatList.text
-        tableView.backgroundColor = theme.mainColors.primaryBackground
-        tableView.reloadData()
+            view.backgroundColor = theme.mainColors.primaryBackground
+            if #available(iOS 13.0, *) {
+                let navBarAppearance = UINavigationBarAppearance()
+                navBarAppearance.configureWithOpaqueBackground()
+                navBarAppearance.titleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
+                navBarAppearance.largeTitleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
+                navBarAppearance.backgroundColor = theme.mainColors.navigationBar.background
+                navigationController?.navigationBar.standardAppearance = navBarAppearance
+                navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+            } else {
+                UINavigationBar.appearance().isTranslucent = false
+                self.navigationController?.navigationBar.barTintColor = theme.mainColors.navigationBar.tint
+                UINavigationBar.appearance().barStyle = theme.mainColors.navigationBar.barStyle
+                self.navigationController?.navigationBar.titleTextAttributes = [
+                    NSAttributedString.Key.foregroundColor:
+                        theme.mainColors.navigationBar.title ]
+                UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
+                UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: theme.mainColors.navigationBar.title]
+            }
+            
+            navigationController?.isNavigationBarHidden = true
+            navigationController?.isNavigationBarHidden = false
+            
+            setNeedsStatusBarAppearanceUpdate()
+            
+            tableView.separatorColor = theme.mainColors.chatList.text
+            tableView.backgroundColor = theme.mainColors.primaryBackground
+            tableView.reloadData()
         }
     }
     
@@ -175,8 +172,10 @@ class ConversationListViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Создать", style: .default, handler: { [weak alert] (_) in
             let textField = alert?.textFields?.first 
             if let textFieldData = textField?.text, !textFieldData.trimmingCharacters(in: .whitespaces).isEmpty {
-                self.fireStoreService?.createChannel(name: textFieldData) { result in
-                    if case Result.failure(_) = result {
+                DispatchQueue.global(qos: .default).async {
+                    self.fireStoreService?.createChannel(name: textFieldData) { result in
+                        if case Result.failure(_) = result {
+                        }
                     }
                 }
             }
@@ -191,7 +190,18 @@ class ConversationListViewController: UIViewController {
     
     @objc private func profileAvatarTapped(_ sender: Any) {
         self.navigationItem.rightBarButtonItem?.isEnabled = false
-        self.performSegue(withIdentifier: "showProfileSegue", sender: sender)
+        
+        if let controller = presentationAssembly?.profileViewController() {
+            controller.userDataStore = userDataStore
+            controller.existingImage = userDataStore?.profile?.avatar
+            
+            controller.onProfileChanged = { [weak self] (_) in
+                DispatchQueue.main.async {
+                    self?.loadProfile()
+                }
+            }
+            navigationController?.pushViewController(controller, animated: true)
+        }
     }
 }
 
@@ -231,7 +241,11 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
         
         let channel = fetchedResultsController.object(at: indexPath)
         if let conversationVC = presentationAssembly?.conversationViewController(channelId: channel.identifier ?? "", channelName: channel.name ?? "") {
-            conversationVC.chat = ChannelModel(identifier: channel.identifier ?? "", name: channel.name ?? "", lastMessage: channel.lastMessage, lastActivity: channel.lastActivity) 
+            conversationVC.chat = ChannelModel(identifier: channel.identifier ?? "",
+                                               name: channel.name ?? "",
+                                               lastMessage: channel.lastMessage,
+                                               lastActivity: channel.lastActivity)
+            
             navigationController?.pushViewController(conversationVC, animated: true)
         }
     }
@@ -245,7 +259,7 @@ extension ConversationListViewController: UITableViewDelegate, UITableViewDataSo
         cell.configure(with: channel)
         
         if let theme = themeDataStore?.theme {
-        cell.configureTheme(theme: theme)
+            cell.configureTheme(theme: theme)
         }
         
         cell.selectionStyle = .none
@@ -297,17 +311,14 @@ extension ConversationListViewController: NSFetchedResultsControllerDelegate {
         
         switch type {
         case .insert:
-            Logger.log("inserted")
             guard let newIndexPath = newIndexPath else { return }
             
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .move:
-            Logger.log("moved")
             guard let newIndexPath = newIndexPath, let indexPath = indexPath else { return }
             tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .update:
-            Logger.log("update")
             guard let indexPath = indexPath else { return }
             guard let cell = tableView.cellForRow(at: indexPath) as? DialogTableViewCell else {
                 return
@@ -317,7 +328,6 @@ extension ConversationListViewController: NSFetchedResultsControllerDelegate {
             
             tableView.reloadRows(at: [indexPath], with: .automatic)
         case .delete:
-            Logger.log("delete")
             guard let indexPath = indexPath else { return }
             tableView.deleteRows(at: [indexPath], with: .automatic)
         default:

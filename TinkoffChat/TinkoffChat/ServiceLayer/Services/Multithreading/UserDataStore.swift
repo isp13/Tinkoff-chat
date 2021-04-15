@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 protocol IProfileDataManager {
     func save(profile: ProfileViewModel, completion: @escaping((Bool) -> Void))
     

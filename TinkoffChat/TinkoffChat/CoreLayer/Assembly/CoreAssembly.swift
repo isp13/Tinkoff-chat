@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol CoreAssemblyProtocol {
     var fileManager: FileUtilsManagerProtocol { get }
     var coreDataStack: CoreDataStackProtocol { get set }

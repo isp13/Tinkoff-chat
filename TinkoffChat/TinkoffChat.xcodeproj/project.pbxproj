@@ -136,12 +136,30 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		802DB57B2608B70D00056906 /* FireStore */ = {
+		801069362628A885001DB570 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				802DB57F2608B7B700056906 /* Models */,
+				802A492525F6AC4B0054C408 /* ThemesViewController.swift */,
+				801069372628A8A0001DB570 /* Model */,
 			);
-			path = FireStore;
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		801069372628A8A0001DB570 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				80B7734D25FAA8210083C6A6 /* ThemeModel.swift */,
+				80DCC23D25F7B34F00763AD1 /* ThemeApp.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		801069382628A8CA001DB570 /* LaunchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				809D7BAB2603D35100F91521 /* CustomSplashViewController.swift */,
+			);
+			path = LaunchScreen;
 			sourceTree = "<group>";
 		};
 		802DB57F2608B7B700056906 /* Models */ = {
@@ -177,13 +195,9 @@
 				80C061952623169400DA0332 /* PresentationLayer */,
 				80C06196262316A600DA0332 /* ServiceLayer */,
 				80C06197262316B000DA0332 /* CoreLayer */,
-				802DB57B2608B70D00056906 /* FireStore */,
-				80B7734C25FAA8020083C6A6 /* Theme */,
-				8090482F25E3AE7400E3BF35 /* Logger.swift */,
 				8001D50925ED8F07002E6B9A /* Extensions */,
 				809639A625D7DFCE0038EFEE /* AppDelegate.swift */,
 				80F852E626232C2000FB15D5 /* RootAssembly.swift */,
-				809D7BAB2603D35100F91521 /* CustomSplashViewController.swift */,
 				809639AA25D7DFCE0038EFEE /* ViewController.swift */,
 				809639AC25D7DFCE0038EFEE /* Main.storyboard */,
 				809639AF25D7DFCF0038EFEE /* Assets.xcassets */,
@@ -192,34 +206,6 @@
 				809639B425D7DFCF0038EFEE /* Info.plist */,
 			);
 			path = TinkoffChat;
-			sourceTree = "<group>";
-		};
-		80B7734C25FAA8020083C6A6 /* Theme */ = {
-			isa = PBXGroup;
-			children = (
-				809D7BA52603C8D800F91521 /* GCDThemeManager.swift */,
-				809D7BA92603CDC800F91521 /* ThemeDataStore.swift */,
-				80B7735125FAAA920083C6A6 /* Model */,
-				80B7735025FAAA8C0083C6A6 /* Controller */,
-			);
-			path = Theme;
-			sourceTree = "<group>";
-		};
-		80B7735025FAAA8C0083C6A6 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				802A492525F6AC4B0054C408 /* ThemesViewController.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		80B7735125FAAA920083C6A6 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				80B7734D25FAA8210083C6A6 /* ThemeModel.swift */,
-				80DCC23D25F7B34F00763AD1 /* ThemeApp.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		80C061952623169400DA0332 /* PresentationLayer */ = {
@@ -243,6 +229,7 @@
 		80C06197262316B000DA0332 /* CoreLayer */ = {
 			isa = PBXGroup;
 			children = (
+				8090482F25E3AE7400E3BF35 /* Logger.swift */,
 				80C061B726231FF800DA0332 /* Assembly */,
 				80D95F7E26148B2300FDFF3A /* CoreData */,
 				80CD4F3526000043008A35B2 /* FileUtils.swift */,
@@ -253,6 +240,8 @@
 		80C061982623175700DA0332 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				801069382628A8CA001DB570 /* LaunchScreen */,
+				801069362628A885001DB570 /* Settings */,
 				80C061A2262318C400DA0332 /* Profile */,
 				80C0619A2623177100DA0332 /* ConversationList */,
 				80C061992623176900DA0332 /* Conversation */,
@@ -376,8 +365,10 @@
 		80C061B226231D9300DA0332 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				809D7BA92603CDC800F91521 /* ThemeDataStore.swift */,
 				80C061CF2623226200DA0332 /* Multithreading */,
 				802DB57C2608B72800056906 /* FireStoreService.swift */,
+				802DB57F2608B7B700056906 /* Models */,
 				80C061B426231ED200DA0332 /* CoreDataService.swift */,
 			);
 			path = Services;
@@ -395,6 +386,7 @@
 			isa = PBXGroup;
 			children = (
 				80CD4F3F260002FF008A35B2 /* UserDataStore.swift */,
+				809D7BA52603C8D800F91521 /* GCDThemeManager.swift */,
 				80CD4F39260000A7008A35B2 /* GCDProfileManager.swift */,
 				80CD4F3C26000268008A35B2 /* OperationProfileManager.swift */,
 			);
