@@ -43,6 +43,10 @@
 		80CD4F3A260000A7008A35B2 /* GCDProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CD4F39260000A7008A35B2 /* GCDProfileManager.swift */; };
 		80CD4F3D26000268008A35B2 /* OperationProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CD4F3C26000268008A35B2 /* OperationProfileManager.swift */; };
 		80CD4F40260002FF008A35B2 /* UserDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CD4F3F260002FF008A35B2 /* UserDataStore.swift */; };
+		80D95F8126148B5B00FDFF3A /* Chat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 80D95F7F26148B5B00FDFF3A /* Chat.xcdatamodeld */; };
+		80D95F87261492F400FDFF3A /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D95F86261492F400FDFF3A /* CoreDataStack.swift */; };
+		80D95F8A2614C16F00FDFF3A /* Channel_db + init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D95F892614C16F00FDFF3A /* Channel_db + init.swift */; };
+		80D95F8E2614C67F00FDFF3A /* Message_db + init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D95F8D2614C67F00FDFF3A /* Message_db + init.swift */; };
 		80DCC23E25F7B34F00763AD1 /* ThemeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DCC23D25F7B34F00763AD1 /* ThemeApp.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +89,10 @@
 		80CD4F39260000A7008A35B2 /* GCDProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCDProfileManager.swift; sourceTree = "<group>"; };
 		80CD4F3C26000268008A35B2 /* OperationProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationProfileManager.swift; sourceTree = "<group>"; };
 		80CD4F3F260002FF008A35B2 /* UserDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataStore.swift; sourceTree = "<group>"; };
+		80D95F8026148B5B00FDFF3A /* Chat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chat.xcdatamodel; sourceTree = "<group>"; };
+		80D95F86261492F400FDFF3A /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		80D95F892614C16F00FDFF3A /* Channel_db + init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Channel_db + init.swift"; sourceTree = "<group>"; };
+		80D95F8D2614C67F00FDFF3A /* Message_db + init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Message_db + init.swift"; sourceTree = "<group>"; };
 		80DCC23D25F7B34F00763AD1 /* ThemeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeApp.swift; sourceTree = "<group>"; };
 		C7DE9C29B4257DE352F63803 /* Pods_TinkoffChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TinkoffChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F167808A373D2D55CAF7CD18 /* Pods-TinkoffChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TinkoffChat.debug.xcconfig"; path = "Target Support Files/Pods-TinkoffChat/Pods-TinkoffChat.debug.xcconfig"; sourceTree = "<group>"; };
@@ -210,6 +218,7 @@
 		809639A525D7DFCE0038EFEE /* TinkoffChat */ = {
 			isa = PBXGroup;
 			children = (
+				80D95F7E26148B2300FDFF3A /* CoreData */,
 				802DB57B2608B70D00056906 /* FireStore */,
 				80B7734C25FAA8020083C6A6 /* Theme */,
 				8090482F25E3AE7400E3BF35 /* Logger.swift */,
@@ -274,6 +283,17 @@
 				80CD4F3C26000268008A35B2 /* OperationProfileManager.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		80D95F7E26148B2300FDFF3A /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				80D95F7F26148B5B00FDFF3A /* Chat.xcdatamodeld */,
+				80D95F86261492F400FDFF3A /* CoreDataStack.swift */,
+				80D95F892614C16F00FDFF3A /* Channel_db + init.swift */,
+				80D95F8D2614C67F00FDFF3A /* Message_db + init.swift */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		EB86CD26A04BDEA4E4141282 /* Pods */ = {
@@ -427,9 +447,11 @@
 				802DB5852608B7E000056906 /* Message.swift in Sources */,
 				800749C2260B7B2200A44A62 /* ScrollVIewExt.swift in Sources */,
 				80CD4F3D26000268008A35B2 /* OperationProfileManager.swift in Sources */,
+				80D95F87261492F400FDFF3A /* CoreDataStack.swift in Sources */,
 				8090483225E3C5B600E3BF35 /* ProfileViewController.swift in Sources */,
 				80CD4F2E25FFFC7A008A35B2 /* ProfileModel.swift in Sources */,
 				809D7BA62603C8D800F91521 /* GCDThemeManager.swift in Sources */,
+				80D95F8E2614C67F00FDFF3A /* Message_db + init.swift in Sources */,
 				80CD4F3A260000A7008A35B2 /* GCDProfileManager.swift in Sources */,
 				802A492625F6AC4B0054C408 /* ThemesViewController.swift in Sources */,
 				8001D50725ED8D24002E6B9A /* ConversationChatData.swift in Sources */,
@@ -439,9 +461,11 @@
 				8001D50525ED813F002E6B9A /* DialogTableViewCell.swift in Sources */,
 				8013850D260B889800706475 /* FlexibleTextView.swift in Sources */,
 				809D7BAC2603D35100F91521 /* CustomSplashViewController.swift in Sources */,
+				80D95F8126148B5B00FDFF3A /* Chat.xcdatamodeld in Sources */,
 				8001D50E25ED8F66002E6B9A /* ConversationListViewController.swift in Sources */,
 				809639AB25D7DFCE0038EFEE /* ViewController.swift in Sources */,
 				80CD4F40260002FF008A35B2 /* UserDataStore.swift in Sources */,
+				80D95F8A2614C16F00FDFF3A /* Channel_db + init.swift in Sources */,
 				809639A725D7DFCE0038EFEE /* AppDelegate.swift in Sources */,
 				802DB5812608B7C800056906 /* Channel.swift in Sources */,
 				80DCC23E25F7B34F00763AD1 /* ThemeApp.swift in Sources */,
@@ -653,6 +677,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		80D95F7F26148B5B00FDFF3A /* Chat.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				80D95F8026148B5B00FDFF3A /* Chat.xcdatamodel */,
+			);
+			currentVersion = 80D95F8026148B5B00FDFF3A /* Chat.xcdatamodel */;
+			path = Chat.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8096399B25D7DFCE0038EFEE /* Project object */;
 }

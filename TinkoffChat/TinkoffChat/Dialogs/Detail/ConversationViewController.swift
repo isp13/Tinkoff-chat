@@ -186,7 +186,7 @@ class ConversationViewController: UIViewController {
     }
     
     func fetchData() {
-        FireStoreManager.shared.updateMessages(identifier: chat.identifier) { [weak self] data in
+        FireStoreManager.shared.updateMessages(identifier: chat.identifier, channel: chat) { [weak self] data in
             
             self?.messagesData = data
             DispatchQueue.main.async {

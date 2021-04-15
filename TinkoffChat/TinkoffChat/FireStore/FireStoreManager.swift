@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import CoreData
 
 class FireStoreManager {
     static var shared = FireStoreManager()
@@ -15,7 +16,13 @@ class FireStoreManager {
     
     lazy var senderId = getUUID()
     
+    lazy var coredataStack = CoreDataStack()
+    
     private var collectionListener: ListenerRegistration?
+    
+    init() {
+        self.coredataStack.addStatisticObserver()
+    }
     
     deinit {
         collectionListener?.remove()
@@ -47,6 +54,15 @@ class FireStoreManager {
             })
             
             channels.sort { $0.lastActivity ?? Date() > $1.lastActivity ?? Date() }
+            
+            DispatchQueue.global(qos: .default).async {
+                self.coredataStack.performSave { context in
+                    channels.forEach {
+                        _ = Channel_db(channel: $0, in: context)
+                    }
+                }
+            }
+            
             completion(channels)
         }
     }
@@ -88,7 +104,7 @@ class FireStoreManager {
                 guard let senderId = data["senderId"] as? String else { return }
                 guard let senderName = data["senderName"] as? String else { return }
                 
-                let model = MessageModel(content: content, created: timestamp.dateValue(), senderId: senderId, senderName: senderName)
+                let model = MessageModel(identifier: document.documentID, content: content, created: timestamp.dateValue(), senderId: senderId, senderName: senderName)
                 
                 messages.append(model)
             })
@@ -116,7 +132,7 @@ class FireStoreManager {
     
     /// возврщает сообщения при любом их измерении
     /// - Parameter completion: возвращается массив из объектов класса сообщения
-    func updateMessages(identifier: String, completion: @escaping ([MessageModel]) -> Void) {
+    func updateMessages(identifier: String, channel: ChannelModel, completion: @escaping ([MessageModel]) -> Void) {
         
         reference.document(identifier).collection("messages").order(by: "created", descending: false).addSnapshotListener { (snapshot, error) in
             
@@ -135,10 +151,22 @@ class FireStoreManager {
                 guard let senderId = data["senderId"] as? String else { return }
                 guard let senderName = data["senderName"] as? String else { return }
                 
-                let model = MessageModel(content: content, created: timestamp.dateValue(), senderId: senderId, senderName: senderName)
+                let model = MessageModel(identifier: document.documentID, content: content, created: timestamp.dateValue(), senderId: senderId, senderName: senderName)
                 
                 messages.append(model)
             })
+            
+            // Core data
+            DispatchQueue.global(qos: .default).async {
+                self.coredataStack.performSave { context in
+                    let channel = Channel_db(channel: channel, in: context)
+                    
+                    messages.forEach {
+                        let message = Message_db(message: $0, in: context)
+                        channel.addToMessages(message)
+                    }
+                }
+            }
             
             completion(messages)
             
