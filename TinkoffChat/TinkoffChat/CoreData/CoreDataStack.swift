@@ -80,26 +80,31 @@ class CoreDataStack {
     // MARK: - Saving
     
     func performSave(_ block: (NSManagedObjectContext) -> Void) {
-        let context = saveContext()
-        context.performAndWait {
-            block(context)
-            if context.hasChanges {
-                performSave(in: context)
-            }
-        }
-    }
-    
-    private func performSave(in context: NSManagedObjectContext) {
-        context.performAndWait {
-            do {
-                try context.save()
-            } catch {
-                assertionFailure(error.localizedDescription)
+            let context = saveContext()
+            context.performAndWait {
+                block(context)
+                if context.hasChanges {
+                    do {
+                        try context.obtainPermanentIDs(for: Array(context.insertedObjects))
+                        performSave(in: context)
+                    } catch {
+                        Logger.log(error.localizedDescription)
+                    }
+                    
+                }
             }
         }
         
-        if let parent = context.parent { performSave(in: parent) }
-    }
+        private func performSave(in context: NSManagedObjectContext) {
+            context.performAndWait {
+                do {
+                    try context.save()
+                } catch {
+                    Logger.log(error.localizedDescription)
+                }
+            }
+            if let parent = context.parent { performSave(in: parent) }
+        }
     
     // MARK: - CoreData Observers
     

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ConversationViewController: UIViewController {
     
@@ -14,8 +15,6 @@ class ConversationViewController: UIViewController {
     private var theme: Theme = ThemeDataStore.shared.theme
     
     public var chat: ChannelModel!
-    
-    private var messagesData: [MessageModel] = []
     
     // MARK: Life cycle
     
@@ -29,6 +28,30 @@ class ConversationViewController: UIViewController {
     var sendButton: UIButton!
     var addMediaButtom: UIButton!
     let textField = FlexibleTextView()
+    
+    // следит за изменениями данных в контексте,
+    // позволяет работать с результатом исполнения NSFetchRequest
+    // кеширует результаты запросов
+    lazy var fetchedResultsController: NSFetchedResultsController<Message_db> = {
+        let request = NSFetchRequest<Message_db>(entityName: "Message_db")
+        
+        let descriptor1 = NSSortDescriptor(key: "created", ascending: true)
+        request.sortDescriptors = [descriptor1]
+        
+        request.predicate = NSPredicate(format: "channel.identifier == %@", chat.identifier)
+        
+        request.resultType = .managedObjectResultType
+        request.fetchBatchSize = 20
+        
+        let fetchedResultsController = NSFetchedResultsController(
+            fetchRequest: request,
+            managedObjectContext: FireStoreManager.shared.coredataStack.mainContext,
+            sectionNameKeyPath: nil, cacheName: "messages.\(chat.identifier)")
+        
+        fetchedResultsController.delegate = self
+        
+        return fetchedResultsController
+    }()
     
     override var inputAccessoryView: UIView? {
         
@@ -137,11 +160,14 @@ class ConversationViewController: UIViewController {
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
-        fetchData()
+        updateMessages()
+        performFetch()
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        fetchedResultsController.delegate = nil
+        
     }
     
     // MARK: UI Setup
@@ -158,6 +184,23 @@ class ConversationViewController: UIViewController {
     }
     
     // MARK: Private API
+    
+    private func performFetch() {
+        do {
+            try
+                fetchedResultsController.performFetch()
+        } catch {
+            fatalError()
+        }
+    }
+    
+    private func updateMessages() {
+        FireStoreManager.shared.updateMessages(identifier: chat.identifier ,
+                                               channel: ChannelModel(identifier: chat.identifier ,
+                                                                     name: chat.name ,
+                                                                     lastMessage: chat.lastMessage,
+                                                                     lastActivity: chat.lastActivity))
+    }
     
     @objc func handleTap() {
         textField.resignFirstResponder()
@@ -184,17 +227,6 @@ class ConversationViewController: UIViewController {
             textField.text = ""
         }
     }
-    
-    func fetchData() {
-        FireStoreManager.shared.updateMessages(identifier: chat.identifier, channel: chat) { [weak self] data in
-            
-            self?.messagesData = data
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()   
-                // self?.tableView.scrollsToBottom(animated: true)
-            }
-        }
-    }
 }
 
 // MARK: - UITableViewDelegate
@@ -211,17 +243,25 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messagesData.count
+        guard let sections = self.fetchedResultsController.sections
+        else {
+            return 0
+        }
+        
+        let sectionInfo = sections[section]
+        
+        return sectionInfo.numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let message = self.fetchedResultsController.object(at: indexPath)
         
-        if messagesData[indexPath.row].senderId == FireStoreManager.shared.senderId {
+        if message.senderId == FireStoreManager.shared.senderId {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMesTableViewIndentifier") as? MyMessageTableViewCell else {
                 fatalError("DequeueReusableCell failed while casting")
             }
             
-            cell.configure( messagesData[indexPath.row].content)
+            cell.configure( message.content)
             cell.configureTheme(theme: theme)
             cell.selectionStyle = .none
             return cell
@@ -229,13 +269,72 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "NotMyMesTableViewIndentifier") as? NotMyMessageTableViewCell else {
                 fatalError("DequeueReusableCell failed while casting")
             }
-            
-            cell.configure( messagesData[indexPath.row])
+            cell.configure( message)
             cell.configureTheme(theme: theme)
             cell.selectionStyle = .none
             return cell
         }
     }
+}
+
+// MARK: NSFetchedResultsControllerDelegate
+extension ConversationViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.tableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        
+        switch type {
+        case .insert:
+            Logger.log("inserted")
+            guard let newIndexPath = newIndexPath else { return }
+            
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .move:
+            Logger.log("moved")
+            guard let newIndexPath = newIndexPath, let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            Logger.log("update")
+            guard let indexPath = indexPath else { return }
+            guard let message = controller.object(at: indexPath) as? Message_db else { return }
+            
+            if message.senderId == FireStoreManager.shared.senderId {
+                
+                guard let cell = tableView.cellForRow(at: indexPath) as? MyMessageTableViewCell else {
+                    return
+                }
+                
+                cell.configure(message.content)
+            } else {
+                guard let cell = tableView.cellForRow(at: indexPath) as? NotMyMessageTableViewCell else {
+                    return
+                }
+                
+                cell.configure(message)
+            }
+            
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        case .delete:
+            Logger.log("delete")
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        default:
+            Logger.log("must not be called")
+        }
+    }
+    
 }
 
 class CustomView: UIView {

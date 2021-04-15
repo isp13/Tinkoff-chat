@@ -20,7 +20,7 @@ class NotMyMessageTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    func configure(_ message: MessageModel) {
+    func configure(_ message: Message_db) {
         messageLabel.text = message.content
         nameLabel.text = message.senderName
     }
