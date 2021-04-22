@@ -193,6 +193,7 @@ class ConversationListViewController: UIViewController {
         
         if let controller = presentationAssembly?.profileViewController() {
             controller.userDataStore = userDataStore
+            controller.presentationAssembly = presentationAssembly
             controller.existingImage = userDataStore?.profile?.avatar
             
             controller.onProfileChanged = { [weak self] (_) in
