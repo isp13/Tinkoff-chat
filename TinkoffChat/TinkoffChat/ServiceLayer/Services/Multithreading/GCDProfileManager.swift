@@ -8,7 +8,12 @@
 import UIKit
 
 final class GCDProfileDataManager: IProfileDataManager {
-
+    var fileManager: FileUtilsManagerProtocol
+    
+    init(fileManager: FileUtilsManagerProtocol) {
+        self.fileManager = fileManager
+    }
+    
     func save(profile: ProfileViewModel, completion: @escaping((Bool) -> Void)) {
         let group = DispatchGroup()
         
@@ -18,7 +23,7 @@ final class GCDProfileDataManager: IProfileDataManager {
         
         group.enter()
         DispatchQueue.global(qos: .utility).async {
-            success = FileUtils.save(
+            success = self.fileManager.save(
                 data: profile.name.data(using: .utf8),
                 fileName: ProfileItemsTags.name.rawValue
             )
@@ -28,7 +33,7 @@ final class GCDProfileDataManager: IProfileDataManager {
         group.enter()
         DispatchQueue.global(qos: .utility).async {
 
-            success = FileUtils.save(
+            success = self.fileManager.save(
                 data: profile.description.data(using: .utf8),
                 fileName: ProfileItemsTags.description.rawValue
             )
@@ -38,7 +43,7 @@ final class GCDProfileDataManager: IProfileDataManager {
         group.enter()
         DispatchQueue.global(qos: .utility).async {
                 
-            success = FileUtils.save(
+            success = self.fileManager.save(
                 data: profile.avatar.pngData(),
                 fileName: ProfileItemsTags.avatar.rawValue
             )
@@ -52,11 +57,11 @@ final class GCDProfileDataManager: IProfileDataManager {
     
     func read(completion: @escaping((ProfileViewModel?) -> Void)) {
         DispatchQueue.global(qos: .utility).async {
-            if let nameData = FileUtils.read(fileName: ProfileItemsTags.name.rawValue),
-               let descriptionData = FileUtils.read(fileName: ProfileItemsTags.description.rawValue),
+            if let nameData = self.fileManager.read(fileName: ProfileItemsTags.name.rawValue),
+               let descriptionData = self.fileManager.read(fileName: ProfileItemsTags.description.rawValue),
                let name = String(data: nameData, encoding: .utf8), // имя профиля
                let description = String(data: descriptionData, encoding: .utf8) { // описание профиля
-                let avatarData = FileUtils.read(fileName: ProfileItemsTags.avatar.rawValue) // аватарка
+                let avatarData = self.fileManager.read(fileName: ProfileItemsTags.avatar.rawValue) // аватарка
                 var avatar: UIImage?
                 
                 if let data = avatarData {

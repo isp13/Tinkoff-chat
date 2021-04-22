@@ -12,7 +12,10 @@ class ConversationViewController: UIViewController {
     
     @IBOutlet weak private var tableView: UITableView!
     
-    private var theme: Theme = ThemeDataStore.shared.theme
+    var fireStoreService: FireStoreServiceProtocol?
+    var coreDataService: CoreDataServiceProtocol?
+    
+    var theme: Theme?
     
     public var chat: ChannelModel!
     
@@ -45,7 +48,7 @@ class ConversationViewController: UIViewController {
         
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
-            managedObjectContext: FireStoreManager.shared.coredataStack.mainContext,
+            managedObjectContext: coreDataService!.mainContext,
             sectionNameKeyPath: nil, cacheName: "messages.\(chat.identifier)")
         
         fetchedResultsController.delegate = self
@@ -57,10 +60,12 @@ class ConversationViewController: UIViewController {
         
         if customInputView == nil {
             customInputView = CustomView()
-            customInputView.backgroundColor = theme.mainColors.chat.myMessageBackground
-            
-            textField.textColor = theme.mainColors.chat.text
-            textField.backgroundColor = theme.mainColors.chat.myMessageBackground
+            if let theme = theme {
+                customInputView.backgroundColor = theme.mainColors.chat.myMessageBackground
+                
+                textField.textColor = theme.mainColors.chat.text
+                textField.backgroundColor = theme.mainColors.chat.myMessageBackground
+            }
             textField.placeholder = "Сообщение"
             textField.font = .systemFont(ofSize: 15)
             textField.layer.cornerRadius = 5
@@ -142,7 +147,9 @@ class ConversationViewController: UIViewController {
             ).isActive = true
         }
         
-        customInputView.backgroundColor = theme.mainColors.primaryBackground
+        if let theme = theme {
+            customInputView.backgroundColor = theme.mainColors.primaryBackground
+        }
         
         return customInputView
     }
@@ -152,9 +159,11 @@ class ConversationViewController: UIViewController {
         
         setupTableView()
         
-        navigationController?.navigationBar.backgroundColor = theme.mainColors.navigationBar.background
-        
-        self.view.backgroundColor = theme.mainColors.primaryBackground
+        if let theme = theme {
+            navigationController?.navigationBar.backgroundColor = theme.mainColors.navigationBar.background
+            
+            self.view.backgroundColor = theme.mainColors.primaryBackground
+        }
         
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -173,7 +182,10 @@ class ConversationViewController: UIViewController {
     // MARK: UI Setup
     
     private func setupTableView() {
-        tableView.backgroundColor = theme.mainColors.primaryBackground
+        if let theme = theme {
+            tableView.backgroundColor = theme.mainColors.primaryBackground
+        }
+        
         self.tableView.register(UINib(nibName: String(describing: MyMessageTableViewCell.self), bundle: nil), forCellReuseIdentifier: "MyMesTableViewIndentifier")
         self.tableView.register(UINib(nibName: String(describing: NotMyMessageTableViewCell.self), bundle: nil), forCellReuseIdentifier: "NotMyMesTableViewIndentifier")
         
@@ -195,11 +207,11 @@ class ConversationViewController: UIViewController {
     }
     
     private func updateMessages() {
-        FireStoreManager.shared.updateMessages(identifier: chat.identifier ,
-                                               channel: ChannelModel(identifier: chat.identifier ,
-                                                                     name: chat.name ,
-                                                                     lastMessage: chat.lastMessage,
-                                                                     lastActivity: chat.lastActivity))
+        fireStoreService?.updateMessages(identifier: chat.identifier ,
+                                         channel: ChannelModel(identifier: chat.identifier ,
+                                                               name: chat.name ,
+                                                               lastMessage: chat.lastMessage,
+                                                               lastActivity: chat.lastActivity))
     }
     
     @objc func handleTap() {
@@ -223,7 +235,9 @@ class ConversationViewController: UIViewController {
     
     @objc func sendMessageButtonTapped(_ sender: Any) {
         if let message = textField.text, !message.trimmingCharacters(in: .whitespaces).isEmpty {
-            FireStoreManager.shared.createMessage(identifier: chat.identifier, newMessage: message)
+            DispatchQueue.global(qos: .default).async {
+                self.fireStoreService?.createMessage(identifier: self.chat.identifier, newMessage: message)
+            }
             textField.text = ""
         }
     }
@@ -256,13 +270,15 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = self.fetchedResultsController.object(at: indexPath)
         
-        if message.senderId == FireStoreManager.shared.senderId {
+        if message.senderId == fireStoreService?.senderId {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "MyMesTableViewIndentifier") as? MyMessageTableViewCell else {
                 fatalError("DequeueReusableCell failed while casting")
             }
             
             cell.configure( message.content)
-            cell.configureTheme(theme: theme)
+            if let theme = theme {
+                cell.configureTheme(theme: theme)
+            }
             cell.selectionStyle = .none
             return cell
         } else {
@@ -270,7 +286,9 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
                 fatalError("DequeueReusableCell failed while casting")
             }
             cell.configure( message)
-            cell.configureTheme(theme: theme)
+            if let theme = theme {
+                cell.configureTheme(theme: theme)
+            }
             cell.selectionStyle = .none
             return cell
         }
@@ -310,7 +328,7 @@ extension ConversationViewController: NSFetchedResultsControllerDelegate {
             guard let indexPath = indexPath else { return }
             guard let message = controller.object(at: indexPath) as? Message_db else { return }
             
-            if message.senderId == FireStoreManager.shared.senderId {
+            if message.senderId == fireStoreService?.senderId {
                 
                 guard let cell = tableView.cellForRow(at: indexPath) as? MyMessageTableViewCell else {
                     return

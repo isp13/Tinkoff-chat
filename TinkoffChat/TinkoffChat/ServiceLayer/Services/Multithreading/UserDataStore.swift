@@ -8,16 +8,28 @@
 
 import UIKit
 
-class UserDataStore {
+protocol IProfileDataManager {
+    func save(profile: ProfileViewModel, completion: @escaping((Bool) -> Void))
     
-    static var shared: UserDataStore = UserDataStore()
+    func read(completion: @escaping((ProfileViewModel?) -> Void))
+}
+
+protocol UserDataStoreProtocol {
+    var profile: ProfileViewModel? { get set }
+    var profileManager: IProfileDataManager { get }
+    
+    func saveProfile(profile: ProfileViewModel, completion: @escaping (Bool) -> Void)
+    func readProfile(completion: @escaping (ProfileViewModel) -> Void)
+}
+
+class UserDataStore: UserDataStoreProtocol {
     
     // gcd или operations может быть
     let profileManager: IProfileDataManager
     
-    private(set) var profile: ProfileViewModel? = ProfileViewModel(name: "ФИО", description: "описание профиля", avatar: UIImage(named: "avatar2") ?? UIImage())
+    var profile: ProfileViewModel? = ProfileViewModel(name: "ФИО", description: "описание профиля", avatar: UIImage(named: "avatar2") ?? UIImage())
     
-    init(profileManager: IProfileDataManager = GCDProfileDataManager()) {
+    init(profileManager: IProfileDataManager) {
         self.profileManager = profileManager
     }
     

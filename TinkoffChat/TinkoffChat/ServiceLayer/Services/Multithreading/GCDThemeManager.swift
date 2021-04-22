@@ -8,6 +8,11 @@
 import UIKit
 
 final class GCDThemeManager {
+    var fileManager: FileUtilsManagerProtocol
+    
+    init (fileManager: FileUtilsManagerProtocol) {
+        self.fileManager = fileManager
+    }
     
     func save(theme: Theme, completion: @escaping((Bool) -> Void)) {
         let group = DispatchGroup()
@@ -17,7 +22,7 @@ final class GCDThemeManager {
         // ЗДЕСЬ ЗАПИСЬ
         group.enter()
         DispatchQueue.global(qos: .utility).async {
-            success = FileUtils.save(
+            success = self.fileManager.save(
                 data: String(theme.rawValue).data(using: .utf8),
                 fileName: ThemeItemsTags.themeStyle.rawValue
             )
@@ -31,7 +36,7 @@ final class GCDThemeManager {
     
     func read(completion: @escaping((Theme?) -> Void)) {
         DispatchQueue.global(qos: .utility).async {
-            if let theme = FileUtils.read(fileName: ThemeItemsTags.themeStyle.rawValue),
+            if let theme = self.fileManager.read(fileName: ThemeItemsTags.themeStyle.rawValue),
                let themeRaw = String(data: theme, encoding: .utf8),
                let themeIndex = Int(themeRaw) {
                 completion(Theme(themeIndex))

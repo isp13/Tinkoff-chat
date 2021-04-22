@@ -9,6 +9,12 @@ import UIKit
 
 class OperationProfileDataManager: IProfileDataManager {
     
+    var fileManager: FileUtilsManagerProtocol
+    
+    init(fileManager: FileUtilsManagerProtocol) {
+        self.fileManager = fileManager
+    }
+    
     lazy var operationQueue: OperationQueue =  {
         let queue = OperationQueue()
         queue.qualityOfService = .userInitiated // тк юзер нажал на кнопку и ждет выполнения
@@ -20,17 +26,17 @@ class OperationProfileDataManager: IProfileDataManager {
         
         writeOperations.append(WriteDataToDiskOperation(
                                 data: profile.description.data(using: .utf8),
-                                fileName: ProfileItemsTags.description.rawValue)
+                                fileName: ProfileItemsTags.description.rawValue, fileManager: fileManager)
         )
         
         writeOperations.append(WriteDataToDiskOperation(
                                 data: profile.name.data(using: .utf8),
-                                fileName: ProfileItemsTags.name.rawValue)
+                                fileName: ProfileItemsTags.name.rawValue, fileManager: fileManager)
         )
         
         writeOperations.append(WriteDataToDiskOperation(
                                 data: profile.avatar.pngData(),
-                                fileName: ProfileItemsTags.avatar.rawValue)
+                                fileName: ProfileItemsTags.avatar.rawValue, fileManager: fileManager)
         )
         
         let writeProfileOperation = WriteProfileOperation(writeOperations: writeOperations, completion: completion)
@@ -41,9 +47,9 @@ class OperationProfileDataManager: IProfileDataManager {
     }
     
     func read(completion: @escaping ((ProfileViewModel?) -> Void)) {
-        let nameOperation = LoadDataFromDiskOperation(fileName: ProfileItemsTags.name.rawValue)
-        let descriptionOperation = LoadDataFromDiskOperation(fileName: ProfileItemsTags.description.rawValue)
-        let avatarOperation = LoadDataFromDiskOperation(fileName: ProfileItemsTags.avatar.rawValue)
+        let nameOperation = LoadDataFromDiskOperation(fileName: ProfileItemsTags.name.rawValue, fileManager: self.fileManager)
+        let descriptionOperation = LoadDataFromDiskOperation(fileName: ProfileItemsTags.description.rawValue, fileManager: self.fileManager)
+        let avatarOperation = LoadDataFromDiskOperation(fileName: ProfileItemsTags.avatar.rawValue, fileManager: self.fileManager)
         
         let parseProfile = ReadProfileOperation(
             nameOperation: nameOperation,
@@ -57,31 +63,33 @@ class OperationProfileDataManager: IProfileDataManager {
 }
 
 class LoadDataFromDiskOperation: Operation {
-    
+    var fileManager: FileUtilsManagerProtocol
     let fileName: String
     var data: Data?
     
-    init(fileName: String) {
+    init(fileName: String, fileManager: FileUtilsManagerProtocol) {
         self.fileName = fileName
+        self.fileManager = fileManager
     }
     
     override func main() {
         guard !isCancelled else { return }
-        data = FileUtils.read(fileName: fileName)
+        data = fileManager.read(fileName: fileName)
     }
 }
 
 class WriteDataToDiskOperation: Operation {
-    
+    var fileManager: FileUtilsManagerProtocol
     let data: Data?
     let fileName: String
     var success: Bool
     
-    init(data: Data?, fileName: String) {
+    init(data: Data?, fileName: String, fileManager: FileUtilsManagerProtocol) {
         self.data = data
         self.fileName = fileName
         success = data != nil
         
+        self.fileManager = fileManager
     }
     
     override func main() {
@@ -90,7 +98,7 @@ class WriteDataToDiskOperation: Operation {
         
         Logger.log("OPERATION \(fileName)")
         
-        success = FileUtils.save(data: data, fileName: fileName)
+        success = fileManager.save(data: data, fileName: fileName)
     }
 }
 
