@@ -11,6 +11,7 @@ protocol CoreAssemblyProtocol {
     var fileManager: FileUtilsManagerProtocol { get }
     var coreDataStack: CoreDataStackProtocol { get set }
     var gcdThemeManager: GCDThemeManager { get }
+    var networkManager: NetworkManagerProtocol { get }
     
 }
 
@@ -18,4 +19,5 @@ class CoreAssembly: CoreAssemblyProtocol {
     lazy var fileManager: FileUtilsManagerProtocol = FileUtils()
     lazy var coreDataStack: CoreDataStackProtocol = CoreDataStack()
     lazy var gcdThemeManager: GCDThemeManager = GCDThemeManager(fileManager: fileManager)
+    lazy var networkManager: NetworkManagerProtocol = NetworkManager()
 }

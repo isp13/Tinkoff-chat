@@ -332,6 +332,60 @@
             </objects>
             <point key="canvasLocation" x="260" y="70.614692653673174"/>
         </scene>
+        <!--Image Picker View Controller-->
+        <scene sceneID="yTV-Ea-hUV">
+            <objects>
+                <viewController storyboardIdentifier="imagePicker" id="zVo-QW-qeo" customClass="ImagePickerViewController" customModule="TinkoffChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ptY-xM-veT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mbE-5e-8w1">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="UAX-WK-DvY">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="que-Iy-Kla">
+                                <rect key="frame" x="177.5" y="323.5" width="20" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" name="AccentColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="0mW-aQ-gOh"/>
+                                    <constraint firstAttribute="width" constant="20" id="8sy-Qn-Td3"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </activityIndicatorView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="dA9-Gs-vyC"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="dA9-Gs-vyC" firstAttribute="bottom" secondItem="mbE-5e-8w1" secondAttribute="bottom" id="BI5-uE-uRK"/>
+                            <constraint firstItem="dA9-Gs-vyC" firstAttribute="trailing" secondItem="mbE-5e-8w1" secondAttribute="trailing" id="Hyo-T4-yFd"/>
+                            <constraint firstItem="que-Iy-Kla" firstAttribute="centerY" secondItem="dA9-Gs-vyC" secondAttribute="centerY" id="feU-jU-yHb"/>
+                            <constraint firstItem="que-Iy-Kla" firstAttribute="centerX" secondItem="dA9-Gs-vyC" secondAttribute="centerX" id="vp9-Ld-6XN"/>
+                            <constraint firstItem="mbE-5e-8w1" firstAttribute="leading" secondItem="dA9-Gs-vyC" secondAttribute="leading" id="yNg-A2-Hmc"/>
+                            <constraint firstItem="mbE-5e-8w1" firstAttribute="top" secondItem="dA9-Gs-vyC" secondAttribute="top" id="ySl-bh-yrA"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="que-Iy-Kla" id="Ih6-QQ-XPL"/>
+                        <outlet property="collectionView" destination="mbE-5e-8w1" id="JFX-5d-0TR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tZU-xp-Wr4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1283" y="110"/>
+        </scene>
         <!--Profile View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>

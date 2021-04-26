@@ -14,6 +14,9 @@ protocol ServiceAssemblyProtocol {
     var operationService: IProfileDataManager { get }
     
     var themeDataStore: ThemeDataStore { get }
+    
+    var avatarService: AvatarServiceProtocol { get }
+    
 }
 
 class ServiceAssembly: ServiceAssemblyProtocol {
@@ -30,6 +33,8 @@ class ServiceAssembly: ServiceAssemblyProtocol {
     lazy var userDataService: UserDataStoreProtocol = UserDataStore(profileManager: operationService)
     
     lazy var themeDataStore: ThemeDataStore = ThemeDataStore(gcdManager: coreAssembly.gcdThemeManager)
+    
+    lazy var avatarService: AvatarServiceProtocol = AvatarService(networkManager: coreAssembly.networkManager, apiKey: "16389761-71807c2be9329dee63565e348")
     
     init(coreAssembly: CoreAssemblyProtocol) {
         self.coreAssembly = coreAssembly

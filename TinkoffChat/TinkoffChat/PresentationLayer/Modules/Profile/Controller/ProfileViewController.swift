@@ -10,6 +10,9 @@ import UIKit
 class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     
     var userDataStore: UserDataStoreProtocol?
+    
+    var presentationAssembly: PresenentationAssemblyProtocol?
+    
     var existingImage: UIImage?
     var onProfileChanged: ((ProfileViewModel) -> Void)?
     var theme: Theme?
@@ -184,19 +187,19 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
     /// применяем новую тему ко вью (изменяет цвета элементов вью)
     func applyTheme() {
         if let theme = theme {
-        view.backgroundColor = theme.mainColors.primaryBackground
-        
-        editButton.titleLabel?.textColor = theme.mainColors.buttons.text
-        editButton.backgroundColor = theme.mainColors.buttons.primaryButtonBackground
-        
-        cancelButton.titleLabel?.textColor = theme.mainColors.buttons.text
-        cancelButton.backgroundColor = theme.mainColors.buttons.primaryButtonBackground
-        
-        saveOpeartionsButton.titleLabel?.textColor = theme.mainColors.buttons.text
-        saveOpeartionsButton.backgroundColor = theme.mainColors.buttons.primaryButtonBackground
-        
-        nameLabel.textColor = theme.mainColors.profile.text
-        descriptionLabel.textColor = theme.mainColors.profile.text
+            view.backgroundColor = theme.mainColors.primaryBackground
+            
+            editButton.titleLabel?.textColor = theme.mainColors.buttons.text
+            editButton.backgroundColor = theme.mainColors.buttons.primaryButtonBackground
+            
+            cancelButton.titleLabel?.textColor = theme.mainColors.buttons.text
+            cancelButton.backgroundColor = theme.mainColors.buttons.primaryButtonBackground
+            
+            saveOpeartionsButton.titleLabel?.textColor = theme.mainColors.buttons.text
+            saveOpeartionsButton.backgroundColor = theme.mainColors.buttons.primaryButtonBackground
+            
+            nameLabel.textColor = theme.mainColors.profile.text
+            descriptionLabel.textColor = theme.mainColors.profile.text
         }
     }
     
@@ -298,6 +301,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
                 self.present(self.imagePicker, animated: true, completion: nil)
             }))
         }
+        
+        alert.addAction(UIAlertAction(title: "загрузить", style: .default, handler: { (_) in
+            guard let imagePickerViewController = self.presentationAssembly?.networkImagePickerViewController() else {
+                return
+            }
+            imagePickerViewController.delegate = self
+            imagePickerViewController.theme = self.theme
+            self.present(imagePickerViewController, animated: true, completion: nil)
+        }))
         
         alert.addAction(UIAlertAction(title: "Отменить", style: .cancel))
         
@@ -414,5 +426,12 @@ extension ProfileViewController: UITextViewDelegate, UITextFieldDelegate {
         textField.resignFirstResponder()
         checkProfileDataForChanges()
         return false
+    }
+}
+
+extension ProfileViewController: ImagePickerViewControllerDelegate {
+    func imagePicker(_ viewController: ImagePickerViewController, didSelectedImage image: UIImage?) {
+        self.avatarImageView.image = image
+        saveProfileChanges()
     }
 }

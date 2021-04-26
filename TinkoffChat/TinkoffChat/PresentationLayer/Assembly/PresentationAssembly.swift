@@ -14,6 +14,7 @@ protocol PresenentationAssemblyProtocol {
     func conversationViewController(channelId: String, channelName: String) -> ConversationViewController
     func profileViewController() -> ProfileViewController
     func settingsViewController() -> ThemesViewController
+    func networkImagePickerViewController() -> ImagePickerViewController
 }
 
 class PresenentationAssembly: PresenentationAssemblyProtocol {
@@ -86,4 +87,13 @@ class PresenentationAssembly: PresenentationAssemblyProtocol {
         
         return settingsViewController
     }
+    
+    func networkImagePickerViewController() -> ImagePickerViewController {
+            guard let imagePickerViewController = UIStoryboard(name: "Main", bundle: nil)
+                    .instantiateViewController(withIdentifier: "imagePicker") as? ImagePickerViewController else {
+                fatalError("Can't instantiate NetworkImagePickerViewController")
+            }
+            imagePickerViewController.avatarService = serviceAssembly.avatarService
+            return imagePickerViewController
+        }
 }
