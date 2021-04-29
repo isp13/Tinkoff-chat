@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     var oldStateType: UIApplication.State = .inactive
-    
+    var layer: CAEmitterLayer?
     private let rootAssembly = RootAssembly()
     
     // MARK: Launch
@@ -47,11 +47,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
         
         FirebaseApp.configure()
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        
         
         let controller = rootAssembly.presentationAssembly.customSplashViewController()
         let navigationController = UINavigationController(rootViewController: controller)
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+        window.rootViewController = navigationController
+        
+        window.makeKeyAndVisible()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction(_:)))
+        tap.cancelsTouchesInView = false
+        
+        let longTap = UILongPressGestureRecognizer(target: self, action: #selector(panAction(_:)))
+        longTap.cancelsTouchesInView = false
+        
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(panAction(_:)))
+        pan.cancelsTouchesInView = false
+        
+        window.addGestureRecognizer(tap)
+        window.addGestureRecognizer(longTap)
+        window.addGestureRecognizer(pan)
+        
+        self.window = window
+        
         return true
     }
     
@@ -98,5 +117,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let res = "Application moved from \(oldState.descriptionForEventTag) to \(newState.descriptionForEventTag) : \(funcName)"
         oldStateType = newState
         return res
+    }
+    
+    @objc func tapAction(_ gestureRecognizer: UITapGestureRecognizer) {
+        if let window = window {
+            let layerIcons = DefaultBrandAnimationEmitter().createLayer(position: gestureRecognizer.location(in: gestureRecognizer.view?.window), size: window.bounds.size)
+            window.layer.addSublayer(layerIcons)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                layerIcons.removeFromSuperlayer()
+            }
+        }
+    }
+    
+    @objc func panAction(_ gestureRecognizer: UIGestureRecognizer) {
+        if let window = window {
+            switch gestureRecognizer.state {
+            case .began:
+                let layerIcons = DefaultBrandAnimationEmitter().createLayer(position: gestureRecognizer.location(in: gestureRecognizer.view?.window),
+                                                                        size: window.bounds.size)
+                window.layer.addSublayer(layerIcons)
+                layer = layerIcons
+            case .changed:
+                layer?.emitterPosition = gestureRecognizer.location(in: gestureRecognizer.view?.window)
+            case .ended, .cancelled:
+                layer?.removeFromSuperlayer()
+            case .failed, .possible:
+                print("")
+            default:
+                fatalError()
+            }
+        }
     }
 }

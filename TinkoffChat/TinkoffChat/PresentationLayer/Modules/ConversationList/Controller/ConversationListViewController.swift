@@ -7,11 +7,11 @@
 
 import UIKit
 import CoreData
-class ConversationListViewController: UIViewController {
+class ConversationListViewController: UIViewController, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
     
     var themeDataStore: ThemeDataStore?
     var theme: Theme?
-    
+    let simpleOver = SimpleSlideTransition()
     private var profileImage: UIImage?
     
     var userDataStore: UserDataStoreProtocol?
@@ -64,7 +64,7 @@ class ConversationListViewController: UIViewController {
         
         updateChannels()
         performFetch()
-        
+        navigationController?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -203,6 +203,14 @@ class ConversationListViewController: UIViewController {
             }
             navigationController?.pushViewController(controller, animated: true)
         }
+    }
+    
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationController.Operation,
+                              from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        simpleOver.popStyle = (operation == .pop)
+        return simpleOver
     }
 }
 

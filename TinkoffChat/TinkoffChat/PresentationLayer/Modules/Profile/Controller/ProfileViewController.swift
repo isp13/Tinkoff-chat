@@ -150,6 +150,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
             descriptionLabel.isEditable = false
             descriptionLabel.isSelectable = false
             
+            saveButtonsStackView.animateJiggle()
+            
         case .editing:
             
             // кнопка редактирования профиля пропадает, так как только что была нажата
@@ -171,12 +173,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
             
             descriptionLabel.isEditable = true
             descriptionLabel.isSelectable = true
+            saveButtonsStackView.animateJiggle()
             
         case .hasChanges:
             // найдены изменения, кнопки активировать
             saveOpeartionsButton.isEnabled = true
         case .saving:
             activityIndicatorView.startAnimating()
+            saveButtonsStackView.animateStopJiggle()
             saveOpeartionsButton.isEnabled = false
         }
         
