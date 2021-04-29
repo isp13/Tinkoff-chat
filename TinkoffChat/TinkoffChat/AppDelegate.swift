@@ -49,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         let window = UIWindow(frame: UIScreen.main.bounds)
         
-        
         let controller = rootAssembly.presentationAssembly.customSplashViewController()
         let navigationController = UINavigationController(rootViewController: controller)
         window.rootViewController = navigationController
