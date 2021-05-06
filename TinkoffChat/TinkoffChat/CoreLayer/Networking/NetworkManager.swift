@@ -11,6 +11,8 @@ protocol RequestProtocol {
     var urlRequest: URLRequest? { get }
 }
 protocol NetworkManagerProtocol {
+    var session: URLSession { get }
+    
     func send<Model, Parser>(request: RequestProtocol, parser: Parser,
                              handler: @escaping(Result<Model, Error>) -> Void) where Parser: ResponseParserProtocol, Parser.Model == Model
 }
