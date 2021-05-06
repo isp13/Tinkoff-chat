@@ -35,6 +35,9 @@
 		80406A32263094EE00ABCB62 /* AvatarItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80406A30263094EE00ABCB62 /* AvatarItemCollectionViewCell.swift */; };
 		80406A33263094EE00ABCB62 /* AvatarItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80406A31263094EE00ABCB62 /* AvatarItemCollectionViewCell.xib */; };
 		80406A362630955C00ABCB62 /* AvatarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80406A352630955C00ABCB62 /* AvatarViewModel.swift */; };
+		805E5DC726374C4D00ACDC8F /* UIView + Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805E5DC626374C4D00ACDC8F /* UIView + Animation.swift */; };
+		805E5DCE263B093C00ACDC8F /* DefaultBrandAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805E5DCD263B093C00ACDC8F /* DefaultBrandAnimation.swift */; };
+		805E5DEE263B332700ACDC8F /* SimpleOverAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805E5DED263B332700ACDC8F /* SimpleOverAnimation.swift */; };
 		8090482E25E3ADBF00E3BF35 /* Application + State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8090482D25E3ADBF00E3BF35 /* Application + State.swift */; };
 		8090483025E3AE7400E3BF35 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8090482F25E3AE7400E3BF35 /* Logger.swift */; };
 		8090483225E3C5B600E3BF35 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8090483125E3C5B600E3BF35 /* ProfileViewController.swift */; };
@@ -93,6 +96,9 @@
 		80406A30263094EE00ABCB62 /* AvatarItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		80406A31263094EE00ABCB62 /* AvatarItemCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AvatarItemCollectionViewCell.xib; sourceTree = "<group>"; };
 		80406A352630955C00ABCB62 /* AvatarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarViewModel.swift; sourceTree = "<group>"; };
+		805E5DC626374C4D00ACDC8F /* UIView + Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Animation.swift"; sourceTree = "<group>"; };
+		805E5DCD263B093C00ACDC8F /* DefaultBrandAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultBrandAnimation.swift; sourceTree = "<group>"; };
+		805E5DED263B332700ACDC8F /* SimpleOverAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleOverAnimation.swift; sourceTree = "<group>"; };
 		8090482D25E3ADBF00E3BF35 /* Application + State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Application + State.swift"; sourceTree = "<group>"; };
 		8090482F25E3AE7400E3BF35 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		8090483125E3C5B600E3BF35 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +158,7 @@
 				8090482D25E3ADBF00E3BF35 /* Application + State.swift */,
 				8001D50F25ED9677002E6B9A /* Date + Components.swift */,
 				800749C1260B7B2200A44A62 /* ScrollVIew + offset.swift */,
+				805E5DC626374C4D00ACDC8F /* UIView + Animation.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -254,6 +261,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		805E5DCC263B091600ACDC8F /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				805E5DCD263B093C00ACDC8F /* DefaultBrandAnimation.swift */,
+				805E5DED263B332700ACDC8F /* SimpleOverAnimation.swift */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
 		8096399A25D7DFCE0038EFEE = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +312,7 @@
 			children = (
 				80C061A42623198800DA0332 /* Assembly */,
 				80C061982623175700DA0332 /* Modules */,
+				805E5DCC263B091600ACDC8F /* Animations */,
 			);
 			path = PresentationLayer;
 			sourceTree = "<group>";
@@ -650,6 +667,7 @@
 				80406A1826308FE600ABCB62 /* ImageListRequest.swift in Sources */,
 				80C061A6262319BA00DA0332 /* PresentationAssembly.swift in Sources */,
 				80CD4F3626000043008A35B2 /* FileUtils.swift in Sources */,
+				805E5DC726374C4D00ACDC8F /* UIView + Animation.swift in Sources */,
 				802DB5852608B7E000056906 /* Message.swift in Sources */,
 				800749C2260B7B2200A44A62 /* ScrollVIew + offset.swift in Sources */,
 				80CD4F3D26000268008A35B2 /* OperationProfileManager.swift in Sources */,
@@ -687,8 +705,10 @@
 				80DCC23E25F7B34F00763AD1 /* ThemeApp.swift in Sources */,
 				80B7734E25FAA8210083C6A6 /* ThemeModel.swift in Sources */,
 				809D7BAA2603CDC800F91521 /* ThemeDataStore.swift in Sources */,
+				805E5DCE263B093C00ACDC8F /* DefaultBrandAnimation.swift in Sources */,
 				8001D51025ED9677002E6B9A /* Date + Components.swift in Sources */,
 				80406A362630955C00ABCB62 /* AvatarViewModel.swift in Sources */,
+				805E5DEE263B332700ACDC8F /* SimpleOverAnimation.swift in Sources */,
 				8034BAC325EEB13700685762 /* NotMyMessageTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
