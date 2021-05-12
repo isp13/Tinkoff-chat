@@ -11,4 +11,4 @@ jobs:
           bundler-cache: true
       - name: Build and run tests
         run: 
-          bundle exec fastlane build_and_test
+          cd TinkoffChat; bundle exec fastlane build_and_test
