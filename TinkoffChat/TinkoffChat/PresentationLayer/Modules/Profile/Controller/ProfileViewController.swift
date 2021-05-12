@@ -121,6 +121,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate {
         nameLabel.text = userDataStore?.profile?.name
         descriptionLabel.text = userDataStore?.profile?.description
         
+        nameLabel.accessibilityIdentifier = "user name"
+        descriptionLabel.accessibilityIdentifier = "user description"
+        
         nameLabel.delegate = self
         nameLabel.addTarget(self, action: #selector(checkProfileDataForChanges), for: .editingChanged)
         descriptionLabel.delegate = self

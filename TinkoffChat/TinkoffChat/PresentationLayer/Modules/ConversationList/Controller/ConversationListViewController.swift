@@ -111,6 +111,7 @@ class ConversationListViewController: UIViewController, UIViewControllerTransiti
         let button = UIButton(type: UIButton.ButtonType.custom)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(profileAvatarTapped), for: .touchUpInside)
+        button.accessibilityIdentifier = "Profile navigation button"
         button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
