@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites name='TinkoffChatTests.xctest' tests='4' failures='0'>
+  <testsuite name='TinkoffChatUITests.TinkoffChatUITests' tests='1' failures='0'>
+    <testcase classname='TinkoffChatUITests.TinkoffChatUITests' name='testTextFields' time='7.786'/>
+  </testsuite>
+  <testsuite name='TinkoffChatTests.OperationsTests' tests='1' failures='0'>
+    <testcase classname='TinkoffChatTests.OperationsTests' name='testLoadList' time='0.012'/>
+  </testsuite>
+  <testsuite name='TinkoffChatTests.UserDataStoreTests' tests='2' failures='0'>
+    <testcase classname='TinkoffChatTests.UserDataStoreTests' name='testDataStoreReadSaveEqual' time='0.003'/>
+    <testcase classname='TinkoffChatTests.UserDataStoreTests' name='testDataStoreReadSaveNotEqual' time='0.003'/>
+  </testsuite>
+</testsuites>
