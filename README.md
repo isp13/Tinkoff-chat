@@ -1,2 +1,2 @@
 # Tinkoff-chat
-![example workflow](https://github.com/isp13/Tinkoff-chat/blob/homework14/.github/workflows/.github.yml/badge.svg)
+[![CI](https://github.com/isp13/Tinkoff-chat/actions/workflows/.github.yml/badge.svg)](https://github.com/isp13/Tinkoff-chat/actions/workflows/.github.yml)
