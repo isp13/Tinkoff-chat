@@ -12,7 +12,6 @@
 
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
-ENV["DISCORD_KEY"] = "https://discord.com/api/webhooks/839416992241942530/2BPlVqHPrATx5G_odxvD2aUHWfI22X3vjyFv_cAWCGzg_QG4zj_HXOuIkol91YgDVo2w"
 
 default_platform(:ios)
 
