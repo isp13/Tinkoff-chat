@@ -101,6 +101,7 @@
 		8013850C260B889800706475 /* FlexibleTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexibleTextView.swift; sourceTree = "<group>"; };
 		8020EF9425EE8F3C00DD0877 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		8020EF9825EE91F400DD0877 /* DetailedConversationChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedConversationChatModel.swift; sourceTree = "<group>"; };
+		8027801C264DB39C0052B2DF /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		802A492525F6AC4B0054C408 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		802DB5782608B54700056906 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		802DB57C2608B72800056906 /* FireStoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreService.swift; sourceTree = "<group>"; };
@@ -353,6 +354,7 @@
 		8096399A25D7DFCE0038EFEE = {
 			isa = PBXGroup;
 			children = (
+				8027801C264DB39C0052B2DF /* Config.xcconfig */,
 				809639A525D7DFCE0038EFEE /* TinkoffChat */,
 				807FA2AD26446C0900D48E49 /* TinkoffChatUITests */,
 				807FA2BB26446C1500D48E49 /* TinkoffChatTests */,
@@ -942,7 +944,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z6TZXH8MS8;
 				INFOPLIST_FILE = TinkoffChatUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -962,7 +964,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z6TZXH8MS8;
 				INFOPLIST_FILE = TinkoffChatUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1005,7 +1007,7 @@
 					"${SRCROOT}/Pods/Firebase/CoreOnly/Sources",
 				);
 				INFOPLIST_FILE = TinkoffChatTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1048,7 +1050,7 @@
 					"${SRCROOT}/Pods/Firebase/CoreOnly/Sources",
 				);
 				INFOPLIST_FILE = TinkoffChatTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

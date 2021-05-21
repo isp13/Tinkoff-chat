@@ -1,0 +1,75 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+  desc "установка зависимостей, сборка с помощью scan"
+  lane :build_for_testing do
+    cocoapods
+    scan(
+      build_for_testing: true,
+      clean: true
+      )
+  end
+
+  desc "запуск тестов на уже скомпилированном приложении"
+  lane :run_tests do
+    scan(
+      skip_build: true
+      )
+  end
+
+  desc "вызов первых двух лейнов(сборка и тестирование)"
+  lane :build_and_test do
+    build_for_testing
+    run_tests
+  end
+
+  desc "отправка уведомления в Discord - Success"
+  lane :discordSuccess do 
+    puts ENV["DISCORD_KEY"]
+    discord_notifier(
+      webhook_url: ENV["DISCORD_WEBHOOK_URL"],
+      title: "Tinkoff Chat",
+      description: "Success",
+      gravatar_email: "",
+      success: true,
+      thumbnail_url: "https://upload.wikimedia.org/wikipedia/commons/7/77/Alfa-Bank.svg?uselang=ru",
+      fields:[
+        {
+          name:"Created by:", 
+          value:"Nikita"
+        },
+      ]
+    )
+  end
+
+  desc "отправка уведомления в Discord - Failure"
+  lane :discordFailure do 
+    puts ENV["DISCORD_KEY"]
+    discord_notifier(
+      webhook_url: ENV["DISCORD_WEBHOOK_URL"],
+      title: "Tinkoff Chat",
+      description: "Failure",
+      success: false,
+      thumbnail_url: "https://upload.wikimedia.org/wikipedia/commons/7/77/Alfa-Bank.svg?uselang=ru",
+      fields:[
+        {
+          name:"Created by:", 
+          value:"Nikita"
+        },
+      ]
+    )
+  end

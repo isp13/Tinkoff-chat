@@ -1,0 +1,26 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+      - name: Build and run tests
+        run: 
+          cd TinkoffChat; gem install bundler; bundle install; bundle exec fastlane build_and_test
+  notify:
+    needs: build
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+      - name: Notify discord
+        run:
+          cd TinkoffChat; gem install bundler; bundle install; bundle exec fastlane discordSuccess
